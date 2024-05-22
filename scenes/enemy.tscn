@@ -166,6 +166,15 @@ debug_color = Color(0.809219, 0.269366, 0.780979, 0.42)
 [node name="take_damage_cd" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="hp_bar" type="ProgressBar" parent="."]
+modulate = Color(0.144172, 0.998545, 0, 1)
+offset_left = -9.0
+offset_top = 4.0
+offset_right = 111.0
+offset_bottom = 37.0
+scale = Vector2(0.15, 0.15)
+show_percentage = false
+
 [connection signal="body_entered" from="detection_space" to="." method="_on_detection_space_body_entered"]
 [connection signal="body_exited" from="detection_space" to="." method="_on_detection_space_body_exited"]
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]

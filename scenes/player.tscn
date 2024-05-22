@@ -471,7 +471,21 @@ rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 
+[node name="hp_bar" type="ProgressBar" parent="."]
+modulate = Color(0.2, 1, 0.0627451, 1)
+offset_left = -6.0
+offset_top = 2.0
+offset_right = 78.0
+offset_bottom = 29.0
+scale = Vector2(0.15, 0.15)
+show_percentage = false
+
+[node name="regen_timer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
 [connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
 [connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]
 [connection signal="timeout" from="attack_cd" to="." method="_on_attack_cd_timeout"]
 [connection signal="timeout" from="deal_attack_timer" to="." method="_on_deal_attack_timer_timeout"]
+[connection signal="timeout" from="regen_timer" to="." method="_on_regen_timer_timeout"]

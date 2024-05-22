@@ -2329,6 +2329,7 @@ layer_2/tile_data = PackedInt32Array(65553, 524290, 6, 65560, 524290, 6, 10, 524
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
 position = Vector2(160.549, 56.3157)
 polygon = PackedVector2Array(-1.549, -13.3157, 80.451, -11.3157, 82.451, 4.6843, 194.451, 5.6843, 195.451, 20.6843, 300.451, 22.6843, 299.451, 103.684, 196.451, 105.684, 193.451, 121.684, 100.451, 119.684, 99.451, 137.684, 83.451, 135.684, 80.451, 153.684, 45.451, 153.684, 46.451, 137.684, 0.451004, 134.684, -0.548996, -8.3157, -55.5495, 81.6843, -57.5495, 169.684, 52.4505, 204.684, 224.451, 183.684, 315.451, 177.684, 313.451, 24.6843, 266.451, -38.3157, 156.451, -72.3157, 21.4505, -76.3157)
 
@@ -2338,6 +2339,7 @@ position = Vector2(427, 129)
 [node name="cliffside_world portal" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_world portal"]
+visible = false
 position = Vector2(466, 118)
 shape = SubResource("RectangleShape2D_flwq6")
 
@@ -2346,6 +2348,9 @@ position = Vector2(200, 130)
 
 [node name="slime_2" parent="." instance=ExtResource("11_cklci")]
 position = Vector2(231, 168)
+
+[node name="slime_3" parent="." instance=ExtResource("11_cklci")]
+position = Vector2(227, 90)
 
 [connection signal="body_entered" from="cliffside_world portal" to="." method="_on_cliffside_world_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_world portal" to="." method="_on_cliffside_world_portal_body_exited"]
