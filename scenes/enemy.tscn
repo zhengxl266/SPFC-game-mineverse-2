@@ -187,10 +187,6 @@ position = Vector2(0, -16)
 script = ExtResource("3_qwghc")
 damage_node = ExtResource("4_6hf0t")
 
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-
 [connection signal="body_entered" from="detection_space" to="." method="_on_detection_space_body_entered"]
 [connection signal="body_exited" from="detection_space" to="." method="_on_detection_space_body_exited"]
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]

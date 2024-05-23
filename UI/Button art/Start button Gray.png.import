@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwd12qf8yuwsl"
-path="res://.godot/imported/Mockup_02.png-945cd76134cbb91b24f63d1ff54155bf.ctex"
+uid="uid://c1p8rtmxoi7sk"
+path="res://.godot/imported/Start button Gray.png-d0a5f3e434884d178fafdbfec7e36a3d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/New folder/Mockup_02.png"
-dest_files=["res://.godot/imported/Mockup_02.png-945cd76134cbb91b24f63d1ff54155bf.ctex"]
+source_file="res://UI/Button art/Start button Gray.png"
+dest_files=["res://.godot/imported/Start button Gray.png-d0a5f3e434884d178fafdbfec7e36a3d.ctex"]
 
 [params]
 

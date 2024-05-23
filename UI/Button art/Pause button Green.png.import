@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwu2ogcrxygwf"
-path="res://.godot/imported/IceTileset.png-acafd684cf61c269629fc0104f954138.ctex"
+uid="uid://bnmkwh6dm8i65"
+path="res://.godot/imported/Pause button Green.png-8f355115289f72fc3b4c5ca89d5cc68a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/New folder/IceTileset.png"
-dest_files=["res://.godot/imported/IceTileset.png-acafd684cf61c269629fc0104f954138.ctex"]
+source_file="res://UI/Button art/Pause button Green.png"
+dest_files=["res://.godot/imported/Pause button Green.png-8f355115289f72fc3b4c5ca89d5cc68a.ctex"]
 
 [params]
 

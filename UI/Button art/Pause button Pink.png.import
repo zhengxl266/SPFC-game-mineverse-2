@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c67bjru1gsu2b"
-path="res://.godot/imported/Mockup_01.png-33ac0ea7df6638c35af9f8259b667934.ctex"
+uid="uid://cuod40717g7ih"
+path="res://.godot/imported/Pause button Pink.png-00b9031a946de5c3021463c970662025.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/New folder/Mockup_01.png"
-dest_files=["res://.godot/imported/Mockup_01.png-33ac0ea7df6638c35af9f8259b667934.ctex"]
+source_file="res://UI/Button art/Pause button Pink.png"
+dest_files=["res://.godot/imported/Pause button Pink.png-00b9031a946de5c3021463c970662025.ctex"]
 
 [params]
 

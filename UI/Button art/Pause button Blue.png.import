@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bv2wmn1t8a1v8"
-path="res://.godot/imported/water.png-201855497e2eec8b55f85dc4ff1ffbfc.ctex"
+uid="uid://b23hmfiq4tsx7"
+path="res://.godot/imported/Pause button Blue.png-bb8c521d26e3d222fcc49d6bb030d7ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/New folder/water.png"
-dest_files=["res://.godot/imported/water.png-201855497e2eec8b55f85dc4ff1ffbfc.ctex"]
+source_file="res://UI/Button art/Pause button Blue.png"
+dest_files=["res://.godot/imported/Pause button Blue.png-bb8c521d26e3d222fcc49d6bb030d7ed.ctex"]
 
 [params]
 

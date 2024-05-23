@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyh4wlcrtnq71"]
+
+[ext_resource type="Script" path="res://scripts/player_spawner.gd" id="1_wnnag"]
+
+[node name="player_spawner" type="Node2D"]
+script = ExtResource("1_wnnag")

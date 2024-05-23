@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djvo4qa02n41y"
-path="res://.godot/imported/RPG Nature Tileset Autumn.png-0129280735fcfd522eacceaa331d12ba.ctex"
+uid="uid://5neje56sy745"
+path="res://.godot/imported/Start button Green.png-df7afe5fa1ccae17d3490fcc425e2e44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/New folder/RPG Nature Tileset Autumn.png"
-dest_files=["res://.godot/imported/RPG Nature Tileset Autumn.png-0129280735fcfd522eacceaa331d12ba.ctex"]
+source_file="res://UI/Button art/Start button Green.png"
+dest_files=["res://.godot/imported/Start button Green.png-df7afe5fa1ccae17d3490fcc425e2e44.ctex"]
 
 [params]
 
