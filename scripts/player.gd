@@ -1,13 +1,16 @@
 extends CharacterBody2D
 
+class_name Player
+
+@export var speed: int = 100
+@export var maxhealth = 100
+@onready var health: int =maxhealth
 var enemy_attack_range = false
 var enemy_attack_cd = true
-var health = 100
 var player_alive = true
 
 var attack_ip = false
 
-const speed = 100
 var current_dir = 'none'
 
 func _ready():
@@ -105,7 +108,7 @@ func _on_player_hitbox_body_exited(body):
 
 func enemy_attack():
 	if enemy_attack_range and enemy_attack_cd == true:
-		health = health - 20
+		health = health - 10
 		enemy_attack_cd = false
 		$attack_cd.start()
 		print(health)

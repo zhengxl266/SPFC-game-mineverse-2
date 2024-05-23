@@ -1,7 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://dk0ghg057twxb"]
+[gd_scene load_steps=24 format=3 uid="uid://dk0ghg057twxb"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_j5ooa"]
 [ext_resource type="Texture2D" uid="uid://j6cv8x116d5c" path="res://arts/characters/slime.png" id="1_ptfoe"]
+[ext_resource type="Script" path="res://scripts/DMG popup.gd" id="3_qwghc"]
+[ext_resource type="PackedScene" uid="uid://bwj81r6sxud3b" path="res://scenes/floating_numbers.tscn" id="4_6hf0t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q35bv"]
 atlas = ExtResource("1_ptfoe")
@@ -174,6 +176,20 @@ offset_right = 111.0
 offset_bottom = 37.0
 scale = Vector2(0.15, 0.15)
 show_percentage = false
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+position = Vector2(0, -14)
+scale = Vector2(0.15, 0.15)
+
+[node name="DMG popup" type="Marker2D" parent="."]
+visible = false
+position = Vector2(0, -16)
+script = ExtResource("3_qwghc")
+damage_node = ExtResource("4_6hf0t")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [connection signal="body_entered" from="detection_space" to="." method="_on_detection_space_body_entered"]
 [connection signal="body_exited" from="detection_space" to="." method="_on_detection_space_body_exited"]
