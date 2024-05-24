@@ -11,6 +11,7 @@ var player_start_posx = 14
 var player_start_posy = 77
 
 var game_first_loadin = true
+var game_over = false
 
 func finish_change_scene():
 	if transition_scene == true:
@@ -19,3 +20,14 @@ func finish_change_scene():
 			current_scene = "cliff_side"
 		else:
 			current_scene = "world"
+			
+func reset_game_state():
+	game_over = false
+	player_current_attack = false
+	current_scene = "world"
+	transition_scene = false
+	player_exit_cliffside_posx = 15
+	player_exit_cliffside_posy = 219
+	player_start_posx = 14
+	player_start_posy = 77
+	game_first_loadin = true

@@ -8,6 +8,7 @@ class_name Player
 var enemy_attack_range = false
 var enemy_attack_cd = true
 var player_alive = true
+var respawn_position: Vector2
 
 var attack_ip = false
 
@@ -15,6 +16,8 @@ var current_dir = 'none'
 
 func _ready():
 	$AnimatedSprite2D.play('Front_idle')
+	respawn_position = position
+
 
 func _physics_process(delta):
 	player_movement(delta)
@@ -27,7 +30,10 @@ func _physics_process(delta):
 		player_alive = false      #add "you died" screens and you died screen for future implementation
 		health = 0
 		print("player has been slain")
-		self.queue_free()
+		$AnimatedSprite2D.play("Death")
+		game_over()
+	
+		
 		
 	
 	
@@ -94,6 +100,11 @@ func play_anim(movement):
 		elif movement == 0:
 			if attack_ip == false:
 				anim.play("Back_idle")
+				
+	if player_alive == false:
+		anim.play("Death")
+		
+		
 
 func player():
 	pass
@@ -169,3 +180,14 @@ func _on_regen_timer_timeout():
 			health = 100
 	if health <= 0:
 		health = 0
+
+func game_over():
+	Global.game_over = true
+	await get_tree().create_timer(0.5).timeout
+	get_tree().change_scene_to_file("res://UI/game_over.tscn")
+	
+func respawn():
+	position = respawn_position  
+	health = maxhealth  
+	player_alive = true
+

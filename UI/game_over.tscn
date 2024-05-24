@@ -1,30 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://bh0dnmvj2rd11"]
+[gd_scene load_steps=2 format=3 uid="uid://bruk21duwlfsd"]
 
-[ext_resource type="Script" path="res://UI/main_menu.gd" id="1_iq58j"]
-[ext_resource type="Texture2D" uid="uid://c57oti80y4hsx" path="res://UI/main_menu background.jpg" id="1_qbohn"]
+[ext_resource type="Script" path="res://UI/game_over.gd" id="1_62lnv"]
 
-[sub_resource type="SystemFont" id="SystemFont_ornrq"]
-font_names = PackedStringArray("Fantasy")
-
-[node name="main menu" type="Control"]
+[node name="game_over" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_iq58j")
+script = ExtResource("1_62lnv")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_qbohn")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -46,18 +36,13 @@ theme_override_constants/separation = 120
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Seperator"]
-layout_mode = 2
-offset_left = -3.0
-offset_top = 63.0
-offset_right = 1125.0
-offset_bottom = 159.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = SubResource("SystemFont_ornrq")
-theme_override_font_sizes/font_size = 70
-text = "Mineverse"
-horizontal_alignment = 1
-vertical_alignment = 1
+layout_mode = 0
+offset_left = 248.0
+offset_top = 76.0
+offset_right = 822.0
+offset_bottom = 213.0
+theme_override_font_sizes/font_size = 100
+text = "GAME OVER"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -71,11 +56,15 @@ alignment = 1
 [node name="Seperator2" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Start" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Respawn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(240, 32)
 layout_mode = 2
-text = "Play"
+text = "Respawn"
 
-[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Return_menu" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(240, 32)
 layout_mode = 2
-text = "Quit"
+text = "RETURN TO MENU"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Respawn" to="." method="_on_respawn_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Return_menu" to="." method="_on_return_menu_pressed"]

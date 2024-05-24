@@ -4,10 +4,11 @@ func _ready():
 	if Global.game_first_loadin == true:
 		$player.position.x = Global.player_start_posx
 		$player.position.y = Global.player_start_posy
+		$player.respawn_position = Vector2(Global.player_start_posx, Global.player_start_posy)
 	else:
 		$player.position.x = Global.player_exit_cliffside_posx
 		$player.position.y = Global.player_exit_cliffside_posy
-		
+		$player.respawn_position = Vector2(Global.player_exit_cliffside_posx, Global.player_exit_cliffside_posy)
 
 
 func _process(delta):
