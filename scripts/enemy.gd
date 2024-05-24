@@ -8,11 +8,16 @@ extends CharacterBody2D
 @onready var damage_numbers_origin = $DamageNumbersOrigin
 
 @export var speed = 40
+@export var max_health = 60
 
 var player_chasing = false
 var player = null
 var player_inattack_range = false
 var can_take_damage = true
+var current_health = 0
+
+func _ready():
+	current_health = max_health
 
 func _physics_process(delta):
 	deal_with_damage()
@@ -53,17 +58,22 @@ func deal_with_damage():
 	if player_inattack_range and Global.player_current_attack == true:
 		if can_take_damage == true:
 			var damage_taken = damage_component.damage_amount
-			health_component.take_damage(damage_taken)
+			current_health -= damage_taken
 			DamageNumbers.display_number(damage_taken, damage_numbers_origin.global_position)
 			$take_damage_cd.start()
 			can_take_damage = false
+			if current_health <= 0:
+				die()
+				
+func die():
+	queue_free()
 
 func _on_take_damage_cd_timeout():
 	can_take_damage = true
 
 func update_health():
 	var healthbar = $hp_bar
-	healthbar.value = health_component.get_current_health()
-	healthbar.visible = health_component.get_current_health() < 100
+	healthbar.value = current_health
+	healthbar.visible = current_health < max_health
 
 
