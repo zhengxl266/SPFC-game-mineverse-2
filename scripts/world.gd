@@ -1,5 +1,8 @@
 extends Node2D
 
+@onready var BGM = $BGM
+var backgroundmusicOn = true
+
 func _ready():
 	if Global.game_first_loadin == true:
 		$player.position.x = Global.player_start_posx
@@ -13,6 +16,7 @@ func _ready():
 
 func _process(delta):
 	change_scene()
+	update_music_stats()
 
 
 func _on_cliffside_portal_body_entered(body):
@@ -26,3 +30,11 @@ func change_scene():
 			get_tree().change_scene_to_file("res://scenes/cliff_side.tscn")
 			Global.game_first_loadin = false
 			Global.finish_change_scene()
+
+func update_music_stats():
+	if backgroundmusicOn:
+		if !BGM.playing:
+			BGM.play()
+	else:
+		BGM.stop()
+			

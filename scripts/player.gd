@@ -6,6 +6,8 @@ class_name Player
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var hitbox_component: HitboxComponent = $hitboxComponent
 @onready var damage_component: DamageComponent = $DamageComponent
+@onready var sword_slash = $Sword_slash
+@onready var death_sfx = $Death_sfx
 
 var respawn_position: Vector2
 var player_alive = true
@@ -24,11 +26,12 @@ func _physics_process(delta):
 	current_camera()
 	update_health()
 
-	if health_component.has_method("get_current_health") and health_component.get_current_health() <= 0:
+	if health_component.has_method("get_current_health") and health_component.get_current_health() <= 0 and player_alive:
 		player_alive = false
 		if health_component.has_method("set_current_health"):
 			health_component.set_current_health(0)
 		print("player has been slain")
+		death_sfx.play()
 		$AnimatedSprite2D.play("Death")
 		game_over()
 
@@ -100,6 +103,9 @@ func play_anim(movement):
 	if not player_alive:
 		anim.play("Death")
 		
+		
+		
+		
 func player():
 	pass
 
@@ -127,6 +133,7 @@ func attack():
 	var dir = current_dir
 
 	if Input.is_action_just_pressed("attack"):
+		sword_slash.play()
 		Global.player_current_attack = true
 		attack_ip = true
 		if dir == "right":
@@ -168,7 +175,7 @@ func update_health():
 
 func _on_regen_timer_timeout():
 	if health_component.current_health < 100:
-		health_component.current_health += 20
+		health_component.current_health += 15
 		if health_component.current_health > 100:
 			health_component.current_health = 100
 	if health_component.current_health <= 0:
@@ -176,7 +183,7 @@ func _on_regen_timer_timeout():
 
 func game_over():
 	Global.game_over = true
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1).timeout
 	get_tree().change_scene_to_file("res://UI/game_over.tscn")
 
 func respawn():

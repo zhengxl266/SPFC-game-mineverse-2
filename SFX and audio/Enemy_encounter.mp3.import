@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dbmkooasvthhn"
+path="res://.godot/imported/Enemy_encounter.mp3-e9b41044559dd01f2f7ae2bdff239ba6.mp3str"
+
+[deps]
+
+source_file="res://SFX and audio/Enemy_encounter.mp3"
+dest_files=["res://.godot/imported/Enemy_encounter.mp3-e9b41044559dd01f2f7ae2bdff239ba6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

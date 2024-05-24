@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://vjbr6hot06l0"]
+[gd_scene load_steps=17 format=3 uid="uid://vjbr6hot06l0"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_fhble"]
 [ext_resource type="Texture2D" uid="uid://cnkyi57431d87" path="res://arts/tilesets/plains.png" id="1_xynx3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bv2wmn1t8a1v8" path="res://arts/Other tilesets/water.png" id="5_xfa4h"]
 [ext_resource type="PackedScene" uid="uid://dk0ghg057twxb" path="res://scenes/enemy.tscn" id="6_gpfev"]
 [ext_resource type="Texture2D" uid="uid://djvo4qa02n41y" path="res://arts/Other tilesets/RPG Nature Tileset Autumn.png" id="6_yel86"]
+[ext_resource type="AudioStream" uid="uid://ddxs8lrilb1kw" path="res://SFX and audio/DAY.mp3" id="9_pspoc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tfv8x"]
 texture = ExtResource("2_gku8e")
@@ -563,6 +564,10 @@ polygon = PackedVector2Array(0, -4, 481, -4, 481, 272, 0, 272, -1, 252, -45, 252
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_portal"]
 position = Vector2(-20, 213)
 shape = SubResource("RectangleShape2D_5mfos")
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_pspoc")
+volume_db = -15.0
 
 [connection signal="body_entered" from="cliffside_portal" to="." method="_on_cliffside_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_portal" to="." method="_on_cliffside_portal_body_exited"]
