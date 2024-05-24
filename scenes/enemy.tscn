@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://dk0ghg057twxb"]
+[gd_scene load_steps=25 format=3 uid="uid://dk0ghg057twxb"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_j5ooa"]
 [ext_resource type="Texture2D" uid="uid://j6cv8x116d5c" path="res://arts/characters/slime.png" id="1_ptfoe"]
-[ext_resource type="Script" path="res://scripts/DMG popup.gd" id="3_qwghc"]
-[ext_resource type="PackedScene" uid="uid://bwj81r6sxud3b" path="res://scenes/floating_numbers.tscn" id="4_6hf0t"]
+[ext_resource type="PackedScene" uid="uid://c2v8kfk6f712g" path="res://scripts/hitbox_component.tscn" id="3_wtx2l"]
+[ext_resource type="PackedScene" uid="uid://bnc18030183m0" path="res://scripts/health_component.tscn" id="4_e6h3x"]
+[ext_resource type="PackedScene" uid="uid://bcdd1yr4m6ony" path="res://scripts/damage_component.tscn" id="5_r2jvp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q35bv"]
 atlas = ExtResource("1_ptfoe")
@@ -158,13 +159,6 @@ position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_ysyx2")
 debug_color = Color(0.920868, 0.219796, 0.446478, 0.42)
 
-[node name="enemy_hitbox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
-position = Vector2(-1, -3)
-shape = SubResource("CircleShape2D_qm4fw")
-debug_color = Color(0.809219, 0.269366, 0.780979, 0.42)
-
 [node name="take_damage_cd" type="Timer" parent="."]
 wait_time = 0.5
 
@@ -181,14 +175,19 @@ show_percentage = false
 position = Vector2(0, -14)
 scale = Vector2(0.15, 0.15)
 
-[node name="DMG popup" type="Marker2D" parent="."]
-visible = false
-position = Vector2(0, -16)
-script = ExtResource("3_qwghc")
-damage_node = ExtResource("4_6hf0t")
+[node name="hitboxComponent" parent="." instance=ExtResource("3_wtx2l")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitboxComponent"]
+position = Vector2(-1, -3)
+shape = SubResource("CircleShape2D_qm4fw")
+debug_color = Color(0.809219, 0.269366, 0.780979, 0.42)
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_e6h3x")]
+
+[node name="DamageComponent" parent="." instance=ExtResource("5_r2jvp")]
 
 [connection signal="body_entered" from="detection_space" to="." method="_on_detection_space_body_entered"]
 [connection signal="body_exited" from="detection_space" to="." method="_on_detection_space_body_exited"]
-[connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
-[connection signal="body_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_exited"]
 [connection signal="timeout" from="take_damage_cd" to="." method="_on_take_damage_cd_timeout"]
+[connection signal="body_entered" from="hitboxComponent" to="." method="_on_hitbox_component_body_entered"]
+[connection signal="body_exited" from="hitboxComponent" to="." method="_on_hitbox_component_body_exited"]

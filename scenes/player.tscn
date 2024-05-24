@@ -1,7 +1,10 @@
-[gd_scene load_steps=57 format=3 uid="uid://digw6jgcbqt8l"]
+[gd_scene load_steps=60 format=3 uid="uid://digw6jgcbqt8l"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_2ctg3"]
 [ext_resource type="Texture2D" uid="uid://c1nq1mepoia37" path="res://arts/characters/player.png" id="2_pcjmw"]
+[ext_resource type="PackedScene" uid="uid://bcdd1yr4m6ony" path="res://scripts/damage_component.tscn" id="3_ih7ls"]
+[ext_resource type="PackedScene" uid="uid://bnc18030183m0" path="res://scripts/health_component.tscn" id="4_7o4po"]
+[ext_resource type="PackedScene" uid="uid://c2v8kfk6f712g" path="res://scripts/hitbox_component.tscn" id="5_xjisj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nrwse"]
 atlas = ExtResource("2_pcjmw")
@@ -434,13 +437,6 @@ y_sort_enabled = true
 position = Vector2(1, -12)
 shape = SubResource("CircleShape2D_p0jbg")
 
-[node name="player_hitbox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox"]
-position = Vector2(-1, -8)
-shape = SubResource("CircleShape2D_ojkk3")
-debug_color = Color(0.908119, 0.27666, 0.309052, 0.42)
-
 [node name="attack_cd" type="Timer" parent="."]
 wait_time = 0.45
 
@@ -484,8 +480,19 @@ show_percentage = false
 wait_time = 4.0
 autostart = true
 
-[connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
-[connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]
+[node name="DamageComponent" parent="." instance=ExtResource("3_ih7ls")]
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_7o4po")]
+
+[node name="hitboxComponent" parent="." instance=ExtResource("5_xjisj")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitboxComponent"]
+position = Vector2(-1, -8)
+shape = SubResource("CircleShape2D_ojkk3")
+debug_color = Color(0.908119, 0.27666, 0.309052, 0.42)
+
 [connection signal="timeout" from="attack_cd" to="." method="_on_attack_cd_timeout"]
 [connection signal="timeout" from="deal_attack_timer" to="." method="_on_deal_attack_timer_timeout"]
 [connection signal="timeout" from="regen_timer" to="." method="_on_regen_timer_timeout"]
+[connection signal="body_entered" from="hitboxComponent" to="." method="_on_hitbox_component_body_entered"]
+[connection signal="body_exited" from="hitboxComponent" to="." method="_on_hitbox_component_body_exited"]
