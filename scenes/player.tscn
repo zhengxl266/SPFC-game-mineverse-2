@@ -502,8 +502,12 @@ pitch_scale = 1.91
 [node name="Death_sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_bokay")
 
+[node name="sword_slash_timer" type="Timer" parent="."]
+wait_time = 0.6
+
 [connection signal="timeout" from="attack_cd" to="." method="_on_attack_cd_timeout"]
 [connection signal="timeout" from="deal_attack_timer" to="." method="_on_deal_attack_timer_timeout"]
 [connection signal="timeout" from="regen_timer" to="." method="_on_regen_timer_timeout"]
 [connection signal="body_entered" from="hitboxComponent" to="." method="_on_hitbox_component_body_entered"]
 [connection signal="body_exited" from="hitboxComponent" to="." method="_on_hitbox_component_body_exited"]
+[connection signal="timeout" from="sword_slash_timer" to="." method="_on_sword_slash_timer_timeout"]

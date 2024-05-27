@@ -8,6 +8,7 @@ class_name Player
 @onready var damage_component: DamageComponent = $DamageComponent
 @onready var sword_slash = $Sword_slash
 @onready var death_sfx = $Death_sfx
+var sword_slash_on_cooldown = false
 
 var respawn_position: Vector2
 var player_alive = true
@@ -15,9 +16,11 @@ var player_alive = true
 var attack_ip = false
 var current_dir = 'none'
 
+
 func _ready():
 	$AnimatedSprite2D.play('Front_idle')
 	respawn_position = position
+
 
 func _physics_process(delta):
 	player_movement(delta)
@@ -133,28 +136,47 @@ func attack():
 	var dir = current_dir
 
 	if Input.is_action_just_pressed("attack"):
-		sword_slash.play()
 		Global.player_current_attack = true
 		attack_ip = true
 		if dir == "right":
 			$AnimatedSprite2D.flip_h = false
 			$AnimatedSprite2D.play("Side_attack")
+			if not sword_slash_on_cooldown:
+				sword_slash.play()
+				sword_slash_on_cooldown = true
+				$sword_slash_timer.start()
 			$deal_attack_timer.start()
 		if dir == "left":
 			$AnimatedSprite2D.flip_h = false
 			$AnimatedSprite2D.play("Side_attack")
+			if not sword_slash_on_cooldown:
+				sword_slash.play()
+				sword_slash_on_cooldown = true
+				$sword_slash_timer.start()
 			$deal_attack_timer.start()
 		if dir == "down":
 			$AnimatedSprite2D.play("Front_attack")
+			if not sword_slash_on_cooldown:
+				sword_slash.play()
+				sword_slash_on_cooldown = true
+				$sword_slash_timer.start()
 			$deal_attack_timer.start()
 		if dir == "up":
 			$AnimatedSprite2D.play("Back_attack")
+			if not sword_slash_on_cooldown:
+				sword_slash.play()
+				sword_slash_on_cooldown = true
+				$sword_slash_timer.start()
 			$deal_attack_timer.start()
 
 func _on_deal_attack_timer_timeout():
 	$deal_attack_timer.stop()
 	Global.player_current_attack = false
 	attack_ip = false
+
+func _on_sword_slash_timer_timeout():
+	sword_slash_on_cooldown = false
+
 
 func current_camera():
 	if Global.current_scene == "world":
@@ -190,5 +212,7 @@ func respawn():
 	position = respawn_position
 	health_component.heal_to_max()
 	player_alive = true
+
+
 
 

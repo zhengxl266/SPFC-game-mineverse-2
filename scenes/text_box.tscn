@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1t3umhbuihhm"]
+
+[ext_resource type="Script" path="res://scripts/text_box.gd" id="1_ypsof"]
+[ext_resource type="Texture2D" uid="uid://kruwyghhfwao" path="res://arts/Others/Retro_Textbox_01-A_Transparent.png" id="2_a7igo"]
+[ext_resource type="FontFile" uid="uid://delsi4v3ib100" path="res://UI/fonts/PublicPixel-E447g.ttf" id="3_ltyht"]
+
+[node name="text_box" type="MarginContainer"]
+offset_right = 135.0
+offset_bottom = 77.0
+script = ExtResource("1_ypsof")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_a7igo")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ltyht")
+vertical_alignment = 1
+
+[node name="Letterdisplaytimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Letterdisplaytimer" to="." method="_on_letterdisplaytimer_timeout"]

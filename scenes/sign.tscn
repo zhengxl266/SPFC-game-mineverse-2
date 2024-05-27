@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://5kpkmxpor8s5"]
+
+[ext_resource type="Script" path="res://sign.gd" id="1_iv0ka"]
+[ext_resource type="Texture2D" uid="uid://4c5bkl4wj8ey" path="res://arts/Others/sign_waiting_to_remove_bg-removebg-preview.png" id="2_moogj"]
+[ext_resource type="FontFile" uid="uid://delsi4v3ib100" path="res://UI/fonts/PublicPixel-E447g.ttf" id="3_hs1oi"]
+[ext_resource type="Texture2D" uid="uid://kruwyghhfwao" path="res://arts/Others/Retro_Textbox_01-A_Transparent.png" id="4_n1wos"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1s1ml"]
+size = Vector2(36, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ohe3x"]
+size = Vector2(15, 14)
+
+[node name="Sign" type="Area2D"]
+script = ExtResource("1_iv0ka")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1s1ml")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_moogj")
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+offset_left = -64.0
+offset_top = -23.0
+offset_right = 86.0
+offset_bottom = -9.0
+theme_override_fonts/font = ExtResource("3_hs1oi")
+theme_override_font_sizes/font_size = 8
+text = "[F] to interact"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="chatbox" type="TextureRect" parent="."]
+offset_left = -45.0
+offset_top = -53.0
+offset_right = 2255.0
+offset_bottom = 647.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("4_n1wos")
+
+[node name="DialogLabel" type="Label" parent="chatbox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.944
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -40.0
+offset_right = 128.8
+offset_bottom = 20.0
+theme_override_fonts/font = ExtResource("3_hs1oi")
+theme_override_font_sizes/font_size = 60
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0.5, -4)
+shape = SubResource("RectangleShape2D_ohe3x")
+debug_color = Color(0.935127, 0.155356, 0.508367, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

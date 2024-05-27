@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://vjbr6hot06l0"]
+[gd_scene load_steps=18 format=3 uid="uid://vjbr6hot06l0"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_fhble"]
 [ext_resource type="Texture2D" uid="uid://cnkyi57431d87" path="res://arts/tilesets/plains.png" id="1_xynx3"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dk0ghg057twxb" path="res://scenes/enemy.tscn" id="6_gpfev"]
 [ext_resource type="Texture2D" uid="uid://djvo4qa02n41y" path="res://arts/Other tilesets/RPG Nature Tileset Autumn.png" id="6_yel86"]
 [ext_resource type="AudioStream" uid="uid://ddxs8lrilb1kw" path="res://SFX and audio/DAY.mp3" id="9_pspoc"]
+[ext_resource type="PackedScene" uid="uid://5kpkmxpor8s5" path="res://scenes/sign.tscn" id="10_xsipg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tfv8x"]
 texture = ExtResource("2_gku8e")
@@ -546,13 +547,14 @@ layer_1/name = "mount"
 layer_1/tile_data = PackedInt32Array(29, 131078, 5, 28, 131078, 5, 27, 131078, 5, 26, 131078, 5, 25, 131078, 5, 24, 131078, 5, 23, 131078, 5, 22, 131078, 5, 21, 131078, 5, 20, 65542, 5, 65556, 65542, 6, 65557, 131078, 6, 65558, 327686, 4, 131094, 65542, 6, 65559, 131078, 5, 65560, 131078, 5, 65561, 131078, 5, 65562, 131078, 5, 65563, 131078, 5, 65564, 131078, 5, 65565, 131078, 5, 131095, 131078, 6, 131096, 131078, 6, 131097, 131078, 6, 131098, 131078, 6, 131099, 131078, 6, 131100, 131078, 6, 131101, 131078, 6)
 layer_2/name = "ysort"
 layer_2/y_sort_enabled = true
-layer_2/tile_data = PackedInt32Array(524290, 5, 5, 524311, 5, 5, 131093, 524293, 6, 65538, 655365, 7, 65542, 655365, 7, 655375, 5, 5, 196620, 524293, 6, 393232, 524293, 6, 393223, 524293, 6, 589834, 5, 5, 458765, 655365, 7, 589830, 655365, 7, 589843, 655365, 7, 26, 655365, 7, 917532, 393221, 7, 131076, 5, 0, 65560, 5, 1, 1048595, 5, 1, 1048582, 5, 1, 393226, 5, 1, 524309, 5, 1, 8, 5, 1, 983064, 393221, 7, 983041, 393221, 7, 983055, 393221, 7, 983049, 393221, 7, 983044, 393221, 7, 983061, 393221, 7, 983052, 5, 0)
+layer_2/tile_data = PackedInt32Array(524290, 5, 5, 524311, 5, 5, 131093, 524293, 6, 65538, 655365, 7, 65542, 655365, 7, 655375, 5, 5, 196620, 524293, 6, 393232, 524293, 6, 393223, 524293, 6, 589834, 5, 5, 458765, 655365, 7, 589830, 655365, 7, 589843, 655365, 7, 26, 655365, 7, 917532, 393221, 7, 65560, 5, 1, 1048595, 5, 1, 1048582, 5, 1, 393226, 5, 1, 524309, 5, 1, 8, 5, 1, 983064, 393221, 7, 983041, 393221, 7, 983055, 393221, 7, 983049, 393221, 7, 983044, 393221, 7, 983061, 393221, 7, 983052, 5, 0)
 
 [node name="player" parent="." instance=ExtResource("5_57n66")]
-position = Vector2(15, 219)
+position = Vector2(20, 100)
+scale = Vector2(1, 1.00815)
 
 [node name="Enemy" parent="." instance=ExtResource("6_gpfev")]
-position = Vector2(90, 79)
+position = Vector2(257, 53)
 
 [node name="collsions" type="StaticBody2D" parent="."]
 
@@ -568,6 +570,9 @@ shape = SubResource("RectangleShape2D_5mfos")
 [node name="BGM" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_pspoc")
 volume_db = -15.0
+
+[node name="Sign" parent="." instance=ExtResource("10_xsipg")]
+position = Vector2(75, 44)
 
 [connection signal="body_entered" from="cliffside_portal" to="." method="_on_cliffside_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_portal" to="." method="_on_cliffside_portal_body_exited"]
