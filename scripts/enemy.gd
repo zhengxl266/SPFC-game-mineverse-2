@@ -57,9 +57,11 @@ func _on_hitbox_component_body_exited(body):
 func deal_with_damage():
 	if player_inattack_range and Global.player_current_attack == true:
 		if can_take_damage == true:
-			var damage_taken = damage_component.damage_amount
+			var damage_info = damage_component.deal_damage(self)
+			var damage_taken = damage_info["damage"]
+			var is_critical = damage_info["is_critical"]
 			current_health -= damage_taken
-			DamageNumbers.display_number(damage_taken, damage_numbers_origin.global_position)
+			DamageNumbers.display_number(damage_taken, damage_numbers_origin.global_position,is_critical)
 			$take_damage_cd.start()
 			can_take_damage = false
 			if current_health <= 0:
