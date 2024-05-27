@@ -12,6 +12,8 @@ var player_start_posy = 77
 var game_first_loadin = true
 var game_over = false
 
+var ingame_time = 0.0
+
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):  # Escape key by default
 		Pausemanager.toggle_pause()
@@ -34,3 +36,4 @@ func reset_game_state():
 	player_start_posx = 14
 	player_start_posy = 77
 	game_first_loadin = true
+	ingame_time = 0.0

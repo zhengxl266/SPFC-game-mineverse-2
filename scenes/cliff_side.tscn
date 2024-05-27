@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dhqw136nk1hu0"]
+[gd_scene load_steps=23 format=3 uid="uid://dhqw136nk1hu0"]
 
 [ext_resource type="Texture2D" uid="uid://cnkyi57431d87" path="res://arts/tilesets/plains.png" id="1_8j0dx"]
 [ext_resource type="Script" path="res://scripts/cliff_side.gd" id="1_mdosb"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bv2wmn1t8a1v8" path="res://arts/Other tilesets/water.png" id="8_ir54j"]
 [ext_resource type="PackedScene" uid="uid://digw6jgcbqt8l" path="res://scenes/player.tscn" id="9_05dqy"]
 [ext_resource type="PackedScene" uid="uid://dk0ghg057twxb" path="res://scenes/enemy.tscn" id="11_cklci"]
+[ext_resource type="PackedScene" uid="uid://b4mitotcubsj0" path="res://scenes/daynightcycle_ui.tscn" id="12_ttn0y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rctxn"]
 texture = ExtResource("1_8j0dx")
@@ -2351,6 +2352,16 @@ position = Vector2(231, 168)
 
 [node name="slime_3" parent="." instance=ExtResource("11_cklci")]
 position = Vector2(227, 90)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DayNightCycleUI" parent="CanvasLayer" instance=ExtResource("12_ttn0y")]
+anchors_preset = -1
+anchor_right = 0.432
+anchor_bottom = 0.424
+offset_right = 654.336
+offset_bottom = 373.248
+scale = Vector2(2, 2)
 
 [connection signal="body_entered" from="cliffside_world portal" to="." method="_on_cliffside_world_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_world portal" to="." method="_on_cliffside_world_portal_body_exited"]

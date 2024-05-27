@@ -1,6 +1,8 @@
 extends Node2D
 @onready var pause_menu_scene: PackedScene = preload("res://ui/pause_menu.tscn")
 @onready var BGM = $BGM
+@onready var canvas_layer = $CanvasLayer
+@onready var daynight_ui = $CanvasLayer/DayNightCycleUI
 var backgroundmusicOn = true
 
 func _ready():
@@ -12,6 +14,9 @@ func _ready():
 		$player.position.x = Global.player_exit_cliffside_posx
 		$player.position.y = Global.player_exit_cliffside_posy
 		$player.respawn_position = Vector2(Global.player_exit_cliffside_posx, Global.player_exit_cliffside_posy)
+	canvas_layer.visible = true
+	GlobalCanvasModulate.time_tick.connect(daynight_ui.set_daytime)
+	
 
 
 func _input(event):

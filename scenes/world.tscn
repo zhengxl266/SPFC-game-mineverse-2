@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://vjbr6hot06l0"]
+[gd_scene load_steps=19 format=3 uid="uid://vjbr6hot06l0"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_fhble"]
 [ext_resource type="Texture2D" uid="uid://cnkyi57431d87" path="res://arts/tilesets/plains.png" id="1_xynx3"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://djvo4qa02n41y" path="res://arts/Other tilesets/RPG Nature Tileset Autumn.png" id="6_yel86"]
 [ext_resource type="AudioStream" uid="uid://ddxs8lrilb1kw" path="res://SFX and audio/DAY.mp3" id="9_pspoc"]
 [ext_resource type="PackedScene" uid="uid://5kpkmxpor8s5" path="res://scenes/sign.tscn" id="10_xsipg"]
+[ext_resource type="PackedScene" uid="uid://b4mitotcubsj0" path="res://scenes/daynightcycle_ui.tscn" id="11_8rlq2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tfv8x"]
 texture = ExtResource("2_gku8e")
@@ -573,6 +574,16 @@ volume_db = -15.0
 
 [node name="Sign" parent="." instance=ExtResource("10_xsipg")]
 position = Vector2(75, 44)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DayNightCycleUI" parent="CanvasLayer" instance=ExtResource("11_8rlq2")]
+anchors_preset = -1
+anchor_right = 0.432
+anchor_bottom = 0.424
+offset_right = 654.336
+offset_bottom = 373.248
+scale = Vector2(2, 2)
 
 [connection signal="body_entered" from="cliffside_portal" to="." method="_on_cliffside_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_portal" to="." method="_on_cliffside_portal_body_exited"]

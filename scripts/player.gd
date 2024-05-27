@@ -23,22 +23,28 @@ func _ready():
 
 
 func _physics_process(delta):
-	player_movement(delta)
-	enemy_attack()
-	attack()
-	current_camera()
-	update_health()
-
 	if health_component.has_method("get_current_health") and health_component.get_current_health() <= 0 and player_alive:
 		player_alive = false
+		velocity = Vector2.ZERO
 		if health_component.has_method("set_current_health"):
 			health_component.set_current_health(0)
 		print("player has been slain")
 		death_sfx.play()
 		$AnimatedSprite2D.play("Death")
 		game_over()
+		
+	if player_alive:
+		player_movement(delta)
+		enemy_attack()
+		attack()
+		current_camera()
+		update_health()
+
 
 func player_movement(delta):
+	if not player_alive:
+		velocity = Vector2.ZERO
+		return
 	if Input.is_action_pressed("ui_right"):
 		current_dir = "right"
 		play_anim(1)
@@ -196,7 +202,7 @@ func update_health():
 		healthbar.visible = true
 
 func _on_regen_timer_timeout():
-	if health_component.current_health < 100:
+	if health_component.current_health < 100 && health_component.current_health > 0 :
 		health_component.current_health += 15
 		if health_component.current_health > 100:
 			health_component.current_health = 100
