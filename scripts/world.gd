@@ -1,5 +1,5 @@
 extends Node2D
-
+@onready var pause_menu_scene: PackedScene = preload("res://ui/pause_menu.tscn")
 @onready var BGM = $BGM
 var backgroundmusicOn = true
 
@@ -13,6 +13,10 @@ func _ready():
 		$player.position.y = Global.player_exit_cliffside_posy
 		$player.respawn_position = Vector2(Global.player_exit_cliffside_posx, Global.player_exit_cliffside_posy)
 
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):  # Escape key by default
+		Pausemanager.toggle_pause()
 
 func _process(delta):
 	change_scene()

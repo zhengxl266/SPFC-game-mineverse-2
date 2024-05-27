@@ -19,6 +19,7 @@ config/icon="res://arts/icon.svg"
 
 Global="*res://scripts/Global.gd"
 DamageNumbers="*res://scripts/DamageNumbers.gd"
+Pausemanager="*res://scripts/pausemanager.gd"
 
 [input]
 

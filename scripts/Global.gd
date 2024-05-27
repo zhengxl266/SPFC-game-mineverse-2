@@ -12,6 +12,10 @@ var player_start_posy = 77
 var game_first_loadin = true
 var game_over = false
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):  # Escape key by default
+		Pausemanager.toggle_pause()
+
 func finish_change_scene():
 	if transition_scene == true:
 		transition_scene = false
