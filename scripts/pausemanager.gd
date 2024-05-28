@@ -19,7 +19,13 @@ func toggle_pause():
 			pause_menu_instance.name = "PauseMenu"
 		if pause_menu_instance.get_parent() == null:
 			get_tree().root.add_child(pause_menu_instance)
+			pause_menu_instance.grab_focus()
 	else:
 		if is_instance_valid(pause_menu_instance) and pause_menu_instance.get_parent() != null:
 			pause_menu_instance.queue_free()
 			pause_menu_instance = null
+
+func connect_pause_menu_signals(menu_instance):
+	menu_instance.resume_button.pressed.connect(menu_instance._on_resume_pressed)
+	menu_instance.restart_button.pressed.connect(menu_instance._on_restart_pressed)
+	menu_instance.quit_button.pressed.connect(menu_instance._on_quit_pressed)

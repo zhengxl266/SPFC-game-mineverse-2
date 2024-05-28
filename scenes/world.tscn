@@ -568,10 +568,6 @@ polygon = PackedVector2Array(0, -4, 481, -4, 481, 272, 0, 272, -1, 252, -45, 252
 position = Vector2(-20, 213)
 shape = SubResource("RectangleShape2D_5mfos")
 
-[node name="BGM" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("9_pspoc")
-volume_db = -15.0
-
 [node name="Sign" parent="." instance=ExtResource("10_xsipg")]
 position = Vector2(75, 44)
 
@@ -581,9 +577,13 @@ position = Vector2(75, 44)
 anchors_preset = -1
 anchor_right = 0.432
 anchor_bottom = 0.424
-offset_right = 654.336
-offset_bottom = 373.248
+offset_right = -247.664
+offset_bottom = -130.752
 scale = Vector2(2, 2)
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_pspoc")
+volume_db = -15.0
 
 [connection signal="body_entered" from="cliffside_portal" to="." method="_on_cliffside_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_portal" to="." method="_on_cliffside_portal_body_exited"]

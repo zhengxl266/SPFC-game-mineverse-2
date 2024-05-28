@@ -7,7 +7,7 @@ const Ingame_to_real_min_duration = (2 * PI)/ Minutes_per_day
 signal time_tick(day:int, hour:int, minute:int)
 
 @export var gradient: GradientTexture1D
-@export var Ingame_speed = 1.0
+@export var Ingame_speed = 10.0
 @export var Initial_hour = 12:
 	set(h):
 		Initial_hour = h

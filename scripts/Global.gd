@@ -15,7 +15,7 @@ var game_over = false
 var ingame_time = 0.0
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel"):  # Escape key by default
+	if event.is_action_pressed("ui_cancel"): 
 		Pausemanager.toggle_pause()
 
 func finish_change_scene():
