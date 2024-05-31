@@ -3,7 +3,8 @@ extends Node2D
 @onready var daynight_ui = $CanvasLayer/DayNightCycleUI
 
 func _ready():
-	GlobalCanvasModulate.time_tick.connect(daynight_ui.set_daytime)
+	var canvas_modulate = $CanvasModulate
+	canvas_modulate.time_tick.connect(daynight_ui.set_daytime)
 
 func _process(delta):
 	change_scenes()

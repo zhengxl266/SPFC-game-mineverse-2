@@ -20,10 +20,12 @@ config/icon="res://arts/icon.svg"
 Global="*res://scripts/Global.gd"
 DamageNumbers="*res://scripts/DamageNumbers.gd"
 Pausemanager="*res://scripts/pausemanager.gd"
-GlobalCanvasModulate="*res://scenes/canvas_modulate.tscn"
+BgmGlobal="*res://SFX and audio/BGM global.tscn"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 

@@ -1,7 +1,31 @@
-[gd_scene load_steps=3 format=3 uid="uid://6w3r50fc4dmy"]
+[gd_scene load_steps=6 format=3 uid="uid://6w3r50fc4dmy"]
 
 [ext_resource type="Script" path="res://pause_menu.gd" id="1_gfbw0"]
 [ext_resource type="FontFile" uid="uid://bnqx0x6dyg815" path="res://UI/fonts/pixelmix.ttf" id="2_mp03q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ks24"]
+bg_color = Color(0.193086, 0.505879, 0.26079, 1)
+border_width_bottom = 6
+border_color = Color(0.154982, 0.287459, 0.115636, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.0345515, 0.0880071, 0.0346666, 0.6)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s68mk"]
+bg_color = Color(0.192157, 0.505882, 0.262745, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.0352941, 0.0862745, 0.0352941, 0.6)
+shadow_size = 10
+
+[sub_resource type="Theme" id="Theme_0i7fe"]
+Button/styles/hover = SubResource("StyleBoxFlat_2ks24")
+Button/styles/normal = SubResource("StyleBoxFlat_s68mk")
 
 [node name="Pause_menu" type="Control"]
 process_mode = 3
@@ -13,6 +37,7 @@ offset_left = 54.84
 offset_top = 63.0
 offset_right = -23.664
 offset_bottom = -32.52
+theme = SubResource("Theme_0i7fe")
 script = ExtResource("1_gfbw0")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -43,6 +68,7 @@ alignment = 1
 
 [node name="RESUME" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 process_mode = 3
+custom_minimum_size = Vector2(160, 24)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_mp03q")
 text = "RESUME"
@@ -56,7 +82,7 @@ text = "RESTART"
 
 [node name="QUIT" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 process_mode = 3
-custom_minimum_size = Vector2(120, 12)
+custom_minimum_size = Vector2(160, 24)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_mp03q")
 text = "QUIT"

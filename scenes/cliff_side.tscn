@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dhqw136nk1hu0"]
+[gd_scene load_steps=24 format=3 uid="uid://dhqw136nk1hu0"]
 
 [ext_resource type="Texture2D" uid="uid://cnkyi57431d87" path="res://arts/tilesets/plains.png" id="1_8j0dx"]
 [ext_resource type="Script" path="res://scripts/cliff_side.gd" id="1_mdosb"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bv2wmn1t8a1v8" path="res://arts/Other tilesets/water.png" id="8_ir54j"]
 [ext_resource type="PackedScene" uid="uid://digw6jgcbqt8l" path="res://scenes/player.tscn" id="9_05dqy"]
 [ext_resource type="PackedScene" uid="uid://dk0ghg057twxb" path="res://scenes/enemy.tscn" id="11_cklci"]
+[ext_resource type="PackedScene" uid="uid://c8x0rcllec7w5" path="res://scenes/canvas_modulate.tscn" id="12_nhupn"]
 [ext_resource type="PackedScene" uid="uid://b4mitotcubsj0" path="res://scenes/daynightcycle_ui.tscn" id="12_ttn0y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rctxn"]
@@ -2352,6 +2353,8 @@ position = Vector2(231, 168)
 
 [node name="slime_3" parent="." instance=ExtResource("11_cklci")]
 position = Vector2(227, 90)
+
+[node name="CanvasModulate" parent="." instance=ExtResource("12_nhupn")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

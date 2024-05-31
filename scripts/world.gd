@@ -3,9 +3,9 @@ extends Node2D
 @onready var BGM = $BGM
 @onready var canvas_layer = $CanvasLayer
 @onready var daynight_ui = $CanvasLayer/DayNightCycleUI
-var backgroundmusicOn = true
 
 func _ready():
+	BgmGlobal.play_music_level()
 	if Global.game_first_loadin == true:
 		$player.position.x = Global.player_start_posx
 		$player.position.y = Global.player_start_posy
@@ -15,7 +15,8 @@ func _ready():
 		$player.position.y = Global.player_exit_cliffside_posy
 		$player.respawn_position = Vector2(Global.player_exit_cliffside_posx, Global.player_exit_cliffside_posy)
 	canvas_layer.visible = true
-	GlobalCanvasModulate.time_tick.connect(daynight_ui.set_daytime)
+	var canvas_modulate = $CanvasModulate
+	canvas_modulate.time_tick.connect(daynight_ui.set_daytime)
 	
 
 
@@ -25,7 +26,7 @@ func _input(event):
 
 func _process(delta):
 	change_scene()
-	update_music_stats()
+	
 
 
 func _on_cliffside_portal_body_entered(body):
@@ -40,10 +41,5 @@ func change_scene():
 			Global.game_first_loadin = false
 			Global.finish_change_scene()
 
-func update_music_stats():
-	if backgroundmusicOn:
-		if !BGM.playing:
-			BGM.play()
-	else:
-		BGM.stop()
+
 			

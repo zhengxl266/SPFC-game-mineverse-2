@@ -1,26 +1,60 @@
-[gd_scene load_steps=2 format=3 uid="uid://bruk21duwlfsd"]
+[gd_scene load_steps=8 format=3 uid="uid://bruk21duwlfsd"]
 
 [ext_resource type="Script" path="res://UI/game_over.gd" id="1_62lnv"]
+[ext_resource type="Texture2D" uid="uid://bpsngomsllmc6" path="res://UI/respawn screen background.jpg" id="2_2fwab"]
+[ext_resource type="FontFile" uid="uid://by2ftmwvejbdu" path="res://UI/fonts/OptimusPrincepsSemiBold.ttf" id="3_pwq7t"]
+[ext_resource type="FontFile" uid="uid://bnqx0x6dyg815" path="res://UI/fonts/pixelmix.ttf" id="4_aixg1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ta3wl"]
+border_width_bottom = 5
+border_color = Color(0.325441, 0.325441, 0.325441, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jvdfq"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(1, 1, 1, 0.6)
+shadow_size = 2
+
+[sub_resource type="Theme" id="Theme_mcvtw"]
+default_font = ExtResource("3_pwq7t")
+Button/styles/hover = SubResource("StyleBoxFlat_ta3wl")
+Button/styles/normal = SubResource("StyleBoxFlat_jvdfq")
 
 [node name="game_over" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 1.276
+anchor_bottom = 1.187
+offset_right = 0.0479736
+offset_bottom = -0.176025
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_mcvtw")
 script = ExtResource("1_62lnv")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.03
+offset_right = 0.0598145
+offset_bottom = -0.0700684
+texture = ExtResource("2_2fwab")
+expand_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_right = 0.788
+anchor_bottom = 0.852
+offset_right = -0.360107
+offset_bottom = -0.188049
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 12
@@ -38,14 +72,16 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Seperator"]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.015
-offset_left = 248.0
+anchor_right = 1.0
+offset_left = 230.0
 offset_top = 76.0
-offset_right = -322.92
-offset_bottom = 213.0
+offset_right = -199.23
+offset_bottom = 245.0
 grow_horizontal = 2
+theme_override_colors/font_color = Color(0.878431, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_pwq7t")
 theme_override_font_sizes/font_size = 100
-text = "GAME OVER"
+text = "YOU DIED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -64,11 +100,13 @@ layout_mode = 2
 [node name="Respawn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(240, 32)
 layout_mode = 2
-text = "Respawn"
+theme_override_fonts/font = ExtResource("4_aixg1")
+text = "RESPAWN"
 
 [node name="Return_menu" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(240, 32)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_aixg1")
 text = "RETURN TO MENU"
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Respawn" to="." method="_on_respawn_pressed"]
