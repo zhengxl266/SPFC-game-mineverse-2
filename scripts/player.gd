@@ -203,7 +203,7 @@ func update_health():
 
 func _on_regen_timer_timeout():
 	if health_component.current_health < 100 && health_component.current_health > 0 :
-		health_component.current_health += 15
+		health_component.current_health += 10
 		if health_component.current_health > 100:
 			health_component.current_health = 100
 	if health_component.current_health <= 0:

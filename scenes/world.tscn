@@ -576,11 +576,10 @@ position = Vector2(75, 44)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DayNightCycleUI" parent="CanvasLayer" instance=ExtResource("11_8rlq2")]
-anchors_preset = -1
-anchor_right = 0.432
-anchor_bottom = 0.424
-offset_right = -247.664
-offset_bottom = -130.752
+anchor_right = 0.257
+anchor_bottom = 0.263
+offset_right = -246.44
+offset_bottom = -142.04
 scale = Vector2(2, 2)
 
 [connection signal="body_entered" from="cliffside_portal" to="." method="_on_cliffside_portal_body_entered"]

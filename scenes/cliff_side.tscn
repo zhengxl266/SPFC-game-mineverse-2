@@ -2359,7 +2359,6 @@ position = Vector2(227, 90)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="DayNightCycleUI" parent="CanvasLayer" instance=ExtResource("12_ttn0y")]
-anchors_preset = -1
 anchor_right = 0.432
 anchor_bottom = 0.424
 offset_right = 654.336

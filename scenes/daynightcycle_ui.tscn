@@ -25,9 +25,10 @@ region = Rect2(2, 47, 16, 5)
 [node name="DayNightCycleUI" type="Control"]
 material = SubResource("ShaderMaterial_qhbnj")
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 0.199
+anchor_bottom = 0.203
+offset_right = 0.919983
+offset_bottom = -0.240005
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_8tcnw")
