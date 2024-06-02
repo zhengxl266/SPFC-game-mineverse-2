@@ -1,5 +1,5 @@
 extends Node2D
-@onready var pause_menu_scene: PackedScene = preload("res://ui/pause_menu.tscn")
+@onready var pause_menu_scene: PackedScene = preload("res://UI/pause_menu.tscn")
 @onready var canvas_layer = $CanvasLayer
 @onready var daynight_ui = $CanvasLayer/DayNightCycleUI
 var night_music_playing = false 

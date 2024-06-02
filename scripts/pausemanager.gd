@@ -1,7 +1,7 @@
 extends Node
 
 var is_paused = false
-var pause_menu_scene: PackedScene = preload("res://ui/pause_menu.tscn")
+var pause_menu_scene: PackedScene = preload("res://UI/pause_menu.tscn")
 var pause_menu_instance: Control = null
 
 func _ready():
