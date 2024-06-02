@@ -59,6 +59,7 @@ func _on_quit_pressed():
 
 [node name="Pause_menu" type="Control"]
 process_mode = 3
+z_index = 20
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
