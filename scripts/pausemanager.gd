@@ -4,6 +4,7 @@ var is_paused = false
 var pause_menu_scene: PackedScene = preload("res://UI/pause_menu.tscn")
 var pause_menu_instance: Control = null
 
+
 func _ready():
 	# Initialize the pause menu instance but do not add it to the tree yet
 	pause_menu_instance = pause_menu_scene.instantiate()
@@ -24,6 +25,7 @@ func toggle_pause():
 		if is_instance_valid(pause_menu_instance) and pause_menu_instance.get_parent() != null:
 			pause_menu_instance.queue_free()
 			pause_menu_instance = null
+
 
 func connect_pause_menu_signals(menu_instance):
 	menu_instance.resume_button.pressed.connect(menu_instance._on_resume_pressed)

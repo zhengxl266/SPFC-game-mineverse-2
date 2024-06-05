@@ -32,6 +32,7 @@ script/source = "extends Control
 @onready var resume_button = $PanelContainer/HBoxContainer/VBoxContainer/RESUME as Button
 @onready var quit_button = $PanelContainer/HBoxContainer/VBoxContainer/RESTART as Button
 @onready var restart_button = $PanelContainer/HBoxContainer/VBoxContainer/QUIT as Button
+@onready var player_scene = preload(\"res://scenes/world.tscn\") as PackedScene
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -47,6 +48,7 @@ func _on_restart_pressed():
 	get_tree().reload_current_scene()
 	Global.reset_game_state()
 	Pausemanager.toggle_pause()
+	get_tree().change_scene_to_packed(player_scene)
 
 func _on_quit_pressed():
 	get_tree().quit()
