@@ -14,6 +14,11 @@ var game_over = false
 
 var ingame_time = 0.0
 
+var player_level = 1
+
+func _ready():
+	PlayerStats.player_leveled_up.connect(_on_player_level_changed)
+
 func _input(event):
 	if event.is_action_pressed("ui_cancel"): 
 		Pausemanager.toggle_pause()
@@ -26,6 +31,9 @@ func finish_change_scene():
 		else:
 			current_scene = "world"
 			
+func _on_player_level_changed(new_level):
+	player_level = new_level
+			
 func reset_game_state():
 	game_over = false
 	player_current_attack = false
@@ -37,3 +45,9 @@ func reset_game_state():
 	player_start_posy = 77
 	game_first_loadin = true
 	ingame_time = 0.0
+	PlayerStats.level = 1
+	PlayerStats.current_xp = 0
+
+func set_player_level(level):
+	PlayerStats.level = level
+	

@@ -9,6 +9,7 @@ extends CharacterBody2D
 
 @export var speed = 40
 @export var max_health = 60
+@export var xp_value = 50
 
 var player_chasing = false
 var player = null
@@ -68,6 +69,7 @@ func deal_with_damage():
 				die()
 				
 func die():
+	PlayerStats.gain_xp(xp_value)
 	queue_free()
 
 func _on_take_damage_cd_timeout():

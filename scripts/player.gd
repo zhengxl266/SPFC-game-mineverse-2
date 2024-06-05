@@ -8,6 +8,8 @@ class_name Player
 @onready var damage_component: DamageComponent = $DamageComponent
 @onready var sword_slash = $Sword_slash
 @onready var death_sfx = $Death_sfx
+@onready var xp_progress_bar = %ProgressBar
+@onready var level_label =  %label
 var sword_slash_on_cooldown = false
 
 var respawn_position: Vector2
@@ -16,12 +18,20 @@ var player_alive = true
 var attack_ip = false
 var current_dir = 'none'
 
+var input = Vector2.ZERO
+
+var _level: int = 1
 
 func _ready():
+	PlayerStats.player_leveled_up.connect(_on_player_leveled_up)
+	print(PlayerStats.XP_Table_Data)
 	$AnimatedSprite2D.play('Front_idle')
 	respawn_position = position
-
-
+	xp_progress_bar.max_value = PlayerStats.get_max_xp_at(PlayerStats.level)
+	xp_progress_bar.value = PlayerStats.current_xp
+	set_level(PlayerStats.level)
+	level_label.text = str(PlayerStats.level)
+	
 func _physics_process(delta):
 	if health_component.has_method("get_current_health") and health_component.get_current_health() <= 0 and player_alive:
 		player_alive = false
@@ -39,38 +49,54 @@ func _physics_process(delta):
 		attack()
 		current_camera()
 		update_health()
+		xp_progress_bar.value = PlayerStats.current_xp
+		check_level_up()
+
+func check_level_up():
+	if PlayerStats.current_xp >= PlayerStats.get_max_xp_at(PlayerStats.level):
+		PlayerStats.current_xp = 0
+		PlayerStats.level += 1
+		level = PlayerStats.level
+		xp_progress_bar.max_value = PlayerStats.get_max_xp_at(PlayerStats.level)
+		set_level(level)
 
 
+func get_input():
+	var input_vector = Vector2.ZERO
+	if Input.is_action_pressed("ui_right"):
+		input_vector.x += 1
+	if Input.is_action_pressed("ui_left"):
+		input_vector.x -= 1
+	if Input.is_action_pressed("ui_down"):
+		input_vector.y += 1
+	if Input.is_action_pressed("ui_up"):
+		input_vector.y -= 1
+	return input_vector.normalized()
+	
 func player_movement(delta):
+	input = get_input()
 	if not player_alive:
 		velocity = Vector2.ZERO
 		return
-	if Input.is_action_pressed("ui_right"):
-		current_dir = "right"
+		
+	if input == Vector2.ZERO:
+		velocity = Vector2.ZERO
+	else:
+		velocity =input.normalized()*speed
+	move_and_slide()
+
+	if input != Vector2.ZERO:
+		if input.x > 0:
+			current_dir = "right"
+		elif input.x < 0:
+			current_dir = "left"
+		elif input.y > 0:
+			current_dir = "down"
+		elif input.y < 0:
+			current_dir = "up"
 		play_anim(1)
-		velocity.x = speed
-		velocity.y = 0
-	elif Input.is_action_pressed("ui_left"):
-		current_dir = "left"
-		play_anim(1)
-		velocity.x = -speed
-		velocity.y = 0
-	elif Input.is_action_pressed("ui_down"):
-		current_dir = "down"
-		play_anim(1)
-		velocity.y = speed
-		velocity.x = 0
-	elif Input.is_action_pressed("ui_up"):
-		current_dir = "up"
-		play_anim(1)
-		velocity.y = -speed
-		velocity.x = 0
 	else:
 		play_anim(0)
-		velocity.x = 0
-		velocity.y = 0
-
-	move_and_slide()
 
 
 func play_anim(movement):
@@ -219,6 +245,17 @@ func respawn():
 	health_component.heal_to_max()
 	player_alive = true
 
+func set_level(value:int) -> void:
+	_level = value
+	level_label.text = str(value)
+	
+func get_level() -> int:
+	return _level
 
+var level: int = _level:
+	set(value):
+		set_level(value)
 
-
+func _on_player_leveled_up(new_level):
+	set_level(new_level)
+	Global.set_player_level(new_level)

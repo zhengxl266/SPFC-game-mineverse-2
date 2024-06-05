@@ -505,6 +505,28 @@ stream = ExtResource("6_bokay")
 [node name="sword_slash_timer" type="Timer" parent="."]
 wait_time = 0.6
 
+[node name="player_stats_UI" type="CanvasLayer" parent="."]
+
+[node name="Level" type="HBoxContainer" parent="player_stats_UI"]
+offset_top = 230.0
+offset_right = 124.0
+offset_bottom = 270.0
+
+[node name="label" type="Label" parent="player_stats_UI/Level"]
+unique_name_in_owner = true
+modulate = Color(0.604762, 0.0200088, 0.14529, 1)
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "1"
+
+[node name="ProgressBar" type="ProgressBar" parent="player_stats_UI/Level"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 200.0
+
 [connection signal="timeout" from="attack_cd" to="." method="_on_attack_cd_timeout"]
 [connection signal="timeout" from="deal_attack_timer" to="." method="_on_deal_attack_timer_timeout"]
 [connection signal="timeout" from="regen_timer" to="." method="_on_regen_timer_timeout"]
