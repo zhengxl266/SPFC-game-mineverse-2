@@ -3,7 +3,7 @@ extends Node
 var is_paused = false
 var pause_menu_scene: PackedScene = preload("res://UI/pause_menu.tscn")
 var pause_menu_instance: Control = null
-
+var non_game_scenes: Array = ["res://UI/main_menu.tscn", "res://UI/game_over.tscn"]
 
 func _ready():
 	# Initialize the pause menu instance but do not add it to the tree yet
@@ -11,6 +11,12 @@ func _ready():
 	pause_menu_instance.name = "PauseMenu"
 
 func toggle_pause():
+	var current_scene = get_tree().current_scene
+	if current_scene == null:
+		return
+	var current_scene_path = get_tree().current_scene.scene_file_path
+	if current_scene_path in non_game_scenes:
+		return
 	is_paused = !is_paused
 	get_tree().paused = is_paused
 
@@ -20,7 +26,6 @@ func toggle_pause():
 			pause_menu_instance.name = "PauseMenu"
 		if pause_menu_instance.get_parent() == null:
 			get_tree().root.add_child(pause_menu_instance)
-			pause_menu_instance.grab_focus()
 	else:
 		if is_instance_valid(pause_menu_instance) and pause_menu_instance.get_parent() != null:
 			pause_menu_instance.queue_free()

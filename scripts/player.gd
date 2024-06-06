@@ -22,6 +22,9 @@ var input = Vector2.ZERO
 
 var _level: int = 1
 
+
+const GROWTH_RATE: float = 2.50
+
 func _ready():
 	PlayerStats.player_leveled_up.connect(_on_player_leveled_up)
 	print(PlayerStats.XP_Table_Data)
@@ -31,6 +34,8 @@ func _ready():
 	xp_progress_bar.value = PlayerStats.current_xp
 	set_level(PlayerStats.level)
 	level_label.text = str(PlayerStats.level)
+	damage_component.set_damage_by_level(_level, GROWTH_RATE)
+	print("Initial damage amount for level ", _level, " is: ", damage_component.damage_amount)
 	
 func _physics_process(delta):
 	if health_component.has_method("get_current_health") and health_component.get_current_health() <= 0 and player_alive:
@@ -53,13 +58,14 @@ func _physics_process(delta):
 		check_level_up()
 
 func check_level_up():
+	print("Checking for level up...")
 	if PlayerStats.current_xp >= PlayerStats.get_max_xp_at(PlayerStats.level):
 		PlayerStats.current_xp = 0
 		PlayerStats.level += 1
 		level = PlayerStats.level
 		xp_progress_bar.max_value = PlayerStats.get_max_xp_at(PlayerStats.level)
 		set_level(level)
-
+		print("Player leveled up to level ", level)
 
 func get_input():
 	var input_vector = Vector2.ZERO
@@ -248,6 +254,7 @@ func respawn():
 func set_level(value:int) -> void:
 	_level = value
 	level_label.text = str(value)
+	damage_component.set_damage_by_level(_level, GROWTH_RATE)
 	
 func get_level() -> int:
 	return _level

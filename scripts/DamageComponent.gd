@@ -2,10 +2,17 @@ extends Node
 
 class_name DamageComponent
 
-@export var damage_amount: int = 15
+@export var base_amount: int = 7
 @export var crit_chance: float = 0.2
 @export var crit_multiplier: float = 1.5 
+var damage_amount: int
 
+func _ready():
+	damage_amount = base_amount
+	
+func set_damage_by_level(level:int, growth_rate: float):
+	damage_amount = int(base_amount*pow((1+growth_rate),(level-1)))
+	print("New damage amount for level ", level, " is: ", damage_amount)
 
 func deal_damage(target: Node):
 	var final_damage = damage_amount
