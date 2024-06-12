@@ -11,10 +11,21 @@ func _ready():
 	return_to_menu_button.button_down.connect(_on_return_menu_pressed)
 
 func _on_respawn_pressed():
-	Global.reset_game_state()
+	var player = find_player()
+	if player:
+		Global.reset_game_state(player.inv)
 	get_tree().change_scene_to_packed(player_scene)
 
 
 func _on_return_menu_pressed():
-	Global.reset_game_state()
+	var player = find_player()
+	if player:
+		Global.reset_game_state(player.inv)
 	get_tree().change_scene_to_packed(main_menu)
+
+
+func find_player():
+	var player_scene_instance = player_scene.instantiate()
+	var player = player_scene_instance.get_node_or_null("player")
+	player_scene_instance.queue_free()
+	return player

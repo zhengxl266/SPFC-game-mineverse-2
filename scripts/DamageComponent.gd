@@ -10,9 +10,8 @@ var damage_amount: int
 func _ready():
 	damage_amount = base_amount
 	
-func set_damage_by_level(level:int, growth_rate: float):
-	damage_amount = int(base_amount*pow((1+growth_rate),(level-1)))
-	print("New damage amount for level ", level, " is: ", damage_amount)
+func set_damage_by_level(level: int, growth_rate: float) -> void:
+	damage_amount = base_amount * pow(growth_rate, level-1)
 
 func deal_damage(target: Node):
 	var final_damage = damage_amount
@@ -31,3 +30,4 @@ func deal_damage(target: Node):
 		"damage": final_damage,
 		"is_critical": is_critical
 	}
+

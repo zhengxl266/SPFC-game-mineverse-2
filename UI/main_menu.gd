@@ -18,3 +18,6 @@ func on_quit_pressed() -> void:
 	get_tree().quit()
 	
 
+func _on_logout_pressed():
+	Firebase.Auth.logout()
+	get_tree().change_scene_to_file("res://UI/authentication.tscn")

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 class_name Player
 
+
+@export var inv : Inv
 @export var speed: int = 100
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var hitbox_component: HitboxComponent = $hitboxComponent
@@ -26,6 +28,10 @@ var _level: int = 1
 const GROWTH_RATE: float = 2.50
 
 func _ready():
+	if inv == null:
+		inv = load("res://inventory/playerinv.tres").duplicate()
+	health_component.max_health = 100
+	health_component.heal_to_max()
 	PlayerStats.player_leveled_up.connect(_on_player_leveled_up)
 	print(PlayerStats.XP_Table_Data)
 	$AnimatedSprite2D.play('Front_idle')
@@ -58,14 +64,15 @@ func _physics_process(delta):
 		check_level_up()
 
 func check_level_up():
-	print("Checking for level up...")
+	print("Current XP: ", PlayerStats.current_xp)
+	print("Max XP for level ", PlayerStats.level, ": ", PlayerStats.get_max_xp_at(PlayerStats.level))
 	if PlayerStats.current_xp >= PlayerStats.get_max_xp_at(PlayerStats.level):
 		PlayerStats.current_xp = 0
 		PlayerStats.level += 1
 		level = PlayerStats.level
+		print("Player leveled up to level ", level)
 		xp_progress_bar.max_value = PlayerStats.get_max_xp_at(PlayerStats.level)
 		set_level(level)
-		print("Player leveled up to level ", level)
 
 func get_input():
 	var input_vector = Vector2.ZERO
@@ -235,7 +242,7 @@ func update_health():
 
 func _on_regen_timer_timeout():
 	if health_component.current_health < 100 && health_component.current_health > 0 :
-		health_component.current_health += 10
+		health_component.current_health += 50
 		if health_component.current_health > 100:
 			health_component.current_health = 100
 	if health_component.current_health <= 0:
@@ -245,7 +252,8 @@ func game_over():
 	Global.game_over = true
 	await get_tree().create_timer(1).timeout
 	get_tree().change_scene_to_file("res://UI/game_over.tscn")
-
+	reset_game()
+	
 func respawn():
 	position = respawn_position
 	health_component.heal_to_max()
@@ -265,4 +273,34 @@ var level: int = _level:
 
 func _on_player_leveled_up(new_level):
 	set_level(new_level)
+	set_player_damage(new_level)
 	Global.set_player_level(new_level)
+
+
+func set_player_damage(level:int) -> void:
+	damage_component.damage_amount = damage_component.base_amount* pow(GROWTH_RATE,level-1)
+	print("Player damage updated to: ", damage_component.damage_amount)
+
+
+func collect(item):
+	inv.insert(item)
+
+func use_item(slot_index: int):
+	var slot = inv.slots[slot_index]
+	if slot and slot.item and slot.item.healing_amount > 0:
+		health_component.current_health += slot.item.healing_amount
+		if health_component.current_health > health_component.max_health:
+			health_component.current_health = health_component.max_health
+		slot.amount -= 1
+		if slot.amount <= 0:
+			slot.item = null
+		inv.update.emit()
+		
+func _input(event):
+	if event.is_action_pressed("use_item_1"): 
+		if inv.slots.size() > 0:
+			use_item(0)
+
+
+func reset_game():
+	Global.reset_game_state(inv)

@@ -8,18 +8,24 @@ extends CharacterBody2D
 @onready var damage_numbers_origin = $DamageNumbersOrigin
 
 @export var speed = 40
-@export var max_health = 60
-@export var xp_value = 50
+@export var xp_value = 300
+@export var base_damage = 5
+
+@export var drop_chance: float = 1.0
+@export var drop_item: InvItem
+@export var hp_potion_scene: PackedScene
 
 var player_chasing = false
 var player = null
 var player_inattack_range = false
 var can_take_damage = true
-var current_health = 0
+
 
 func _ready():
-	current_health = max_health
-
+	health_component.heal_to_max()
+	damage_component.base_amount = base_damage
+	hp_potion_scene = load("res://inventory/items/health_potion_collectable.tscn")
+	
 func _physics_process(delta):
 	deal_with_damage()
 	update_health()
@@ -61,15 +67,21 @@ func deal_with_damage():
 			var damage_info = damage_component.deal_damage(self)
 			var damage_taken = damage_info["damage"]
 			var is_critical = damage_info["is_critical"]
-			current_health -= damage_taken
+			health_component.take_damage(damage_taken)
 			DamageNumbers.display_number(damage_taken, damage_numbers_origin.global_position,is_critical)
 			$take_damage_cd.start()
 			can_take_damage = false
-			if current_health <= 0:
+			if health_component.get_current_health() <= 0:
 				die()
 				
 func die():
 	PlayerStats.gain_xp(xp_value)
+	if randi()%100 < int(drop_chance*100):
+		if hp_potion_scene:
+			var health_potion_instance = hp_potion_scene.instantiate()
+			if health_potion_instance:
+				health_potion_instance.global_position = global_position
+				get_parent().add_child(health_potion_instance)
 	queue_free()
 
 func _on_take_damage_cd_timeout():
@@ -77,7 +89,7 @@ func _on_take_damage_cd_timeout():
 
 func update_health():
 	var healthbar = $hp_bar
-	healthbar.value = current_health
-	healthbar.visible = current_health < max_health
+	healthbar.value = health_component.get_current_health()
+	healthbar.visible = health_component.get_current_health() < health_component.max_health
 
 

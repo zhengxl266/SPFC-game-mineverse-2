@@ -16,6 +16,7 @@ var ingame_time = 0.0
 
 var player_level = 1
 
+
 func _ready():
 	PlayerStats.player_leveled_up.connect(_on_player_level_changed)
 
@@ -34,7 +35,7 @@ func finish_change_scene():
 func _on_player_level_changed(new_level):
 	player_level = new_level
 			
-func reset_game_state():
+func reset_game_state(player_inventory: Inv):
 	game_over = false
 	player_current_attack = false
 	current_scene = "world"
@@ -47,7 +48,13 @@ func reset_game_state():
 	ingame_time = 0.0
 	PlayerStats.level = 1
 	PlayerStats.current_xp = 0
-
+	clear_player_inventory(player_inventory)
+	
 func set_player_level(level):
 	PlayerStats.level = level
 	
+func clear_player_inventory(inventory: Inv):
+	for slot in inventory.slots:
+		slot.item = null
+		slot.amount = 0
+	inventory.update.emit()

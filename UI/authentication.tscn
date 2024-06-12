@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://7xil35etw3dm"]
+
+[ext_resource type="Script" path="res://UI/authentication.gd" id="1_hjn2m"]
+
+[node name="Authentication" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hjn2m")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 44.0
+offset_right = 1851.0
+offset_bottom = 932.0
+
+[node name="statelabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Not Logged In"
+
+[node name="EmailLineEdit" type="LineEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Email"
+
+[node name="PasswordLineEdit" type="LineEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Password"
+secret = true
+
+[node name="login" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "login"
+
+[node name="signup" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "signup"
+
+[node name="quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Exit"
+
+[connection signal="pressed" from="VBoxContainer/login" to="." method="_on_login_pressed"]
+[connection signal="pressed" from="VBoxContainer/signup" to="." method="_on_signup_pressed"]
+[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]

@@ -2,7 +2,7 @@ extends Node
 
 class_name HealthComponent
 
-@export var max_health: int = 100
+@export var max_health: int = 60
 
 var current_health: int = max_health
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://cet27f26gxdme"]
+
+[ext_resource type="Script" path="res://inventory/items/health_potion_collectable.gd" id="1_1x3y7"]
+[ext_resource type="Texture2D" uid="uid://dhhs0pjo1tkf0" path="res://arts/Shikashi's Fantasy Icons Pack v2/#2 - Transparent Icons & Drop Shadow.png" id="1_2kefq"]
+[ext_resource type="Resource" uid="uid://df7jv4euda32w" path="res://inventory/items/real_healingpot.tres" id="2_an30o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi667"]
+atlas = ExtResource("1_2kefq")
+region = Rect2(5, 291, 23, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y4tut"]
+radius = 10.0499
+
+[node name="Health_potion_collectable" type="StaticBody2D"]
+script = ExtResource("1_1x3y7")
+item = ExtResource("2_an30o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4.25, -6)
+scale = Vector2(0.630435, 0.571429)
+texture = SubResource("AtlasTexture_gi667")
+
+[node name="interactable_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interactable_area"]
+position = Vector2(-5, -6)
+shape = SubResource("CircleShape2D_y4tut")
+
+[connection signal="body_entered" from="interactable_area" to="." method="_on_interactable_area_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://vjbr6hot06l0"]
+[gd_scene load_steps=20 format=3 uid="uid://vjbr6hot06l0"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_fhble"]
 [ext_resource type="Texture2D" uid="uid://cnkyi57431d87" path="res://arts/tilesets/plains.png" id="1_xynx3"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c8x0rcllec7w5" path="res://scenes/canvas_modulate.tscn" id="10_rj4j4"]
 [ext_resource type="PackedScene" uid="uid://5kpkmxpor8s5" path="res://scenes/sign.tscn" id="10_xsipg"]
 [ext_resource type="PackedScene" uid="uid://b4mitotcubsj0" path="res://scenes/daynightcycle_ui.tscn" id="11_8rlq2"]
+[ext_resource type="PackedScene" uid="uid://cet27f26gxdme" path="res://inventory/items/health_potion_collectable.tscn" id="12_5fpio"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tfv8x"]
 texture = ExtResource("2_gku8e")
@@ -581,6 +582,9 @@ anchor_bottom = 0.263
 offset_right = -246.44
 offset_bottom = -142.04
 scale = Vector2(2, 2)
+
+[node name="Health_potion_collectable" parent="." instance=ExtResource("12_5fpio")]
+position = Vector2(89, 124)
 
 [connection signal="body_entered" from="cliffside_portal" to="." method="_on_cliffside_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_portal" to="." method="_on_cliffside_portal_body_exited"]

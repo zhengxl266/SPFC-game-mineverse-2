@@ -1,11 +1,13 @@
-[gd_scene load_steps=62 format=3 uid="uid://digw6jgcbqt8l"]
+[gd_scene load_steps=64 format=3 uid="uid://digw6jgcbqt8l"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_2ctg3"]
+[ext_resource type="Resource" uid="uid://bkenj783jo183" path="res://inventory/playerinv.tres" id="2_faydf"]
 [ext_resource type="Texture2D" uid="uid://c1nq1mepoia37" path="res://arts/characters/player.png" id="2_pcjmw"]
 [ext_resource type="PackedScene" uid="uid://bcdd1yr4m6ony" path="res://scripts/damage_component.tscn" id="3_ih7ls"]
 [ext_resource type="PackedScene" uid="uid://bnc18030183m0" path="res://scripts/health_component.tscn" id="4_7o4po"]
 [ext_resource type="PackedScene" uid="uid://c2v8kfk6f712g" path="res://scripts/hitbox_component.tscn" id="5_xjisj"]
 [ext_resource type="AudioStream" uid="uid://hdaar3vihadk" path="res://SFX and audio/pixel-death.mp3" id="6_bokay"]
+[ext_resource type="PackedScene" uid="uid://c4cvu4mw54mwc" path="res://inventory/inventory_ui.tscn" id="8_qt7cx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nrwse"]
 atlas = ExtResource("2_pcjmw")
@@ -429,6 +431,7 @@ data = PackedByteArray(73, 68, 51, 4, 0, 0, 0, 0, 0, 35, 84, 83, 83, 69, 0, 0, 0
 [node name="player" type="CharacterBody2D"]
 collision_layer = 3
 script = ExtResource("1_2ctg3")
+inv = ExtResource("2_faydf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
@@ -526,6 +529,12 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 200.0
+
+[node name="Inventory_UI" parent="." instance=ExtResource("8_qt7cx")]
+offset_left = -30.0
+offset_top = -76.0
+offset_right = 120.0
+offset_bottom = 44.0
 
 [connection signal="timeout" from="attack_cd" to="." method="_on_attack_cd_timeout"]
 [connection signal="timeout" from="deal_attack_timer" to="." method="_on_deal_attack_timer_timeout"]
