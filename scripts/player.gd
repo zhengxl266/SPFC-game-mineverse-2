@@ -227,9 +227,15 @@ func current_camera():
 	if Global.current_scene == "world":
 		$world_camera.enabled = true
 		$cliff_side_camera.enabled = false
+		$Grass_to_snow_camera.enabled = false
 	elif Global.current_scene == "cliff_side":
 		$world_camera.enabled = false
 		$cliff_side_camera.enabled = true
+		$Grass_to_snow_camera.enabled = false
+	elif Global.current_scene == "grass_to_snow":
+		$world_camera.enabled = false
+		$cliff_side_camera.enabled = false
+		$Grass_to_snow_camera.enabled = true
 
 func update_health():
 	var healthbar = $hp_bar
