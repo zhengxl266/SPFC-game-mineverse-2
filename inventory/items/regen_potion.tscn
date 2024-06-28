@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://7m7s5db48jam"]
+
+[ext_resource type="Script" path="res://inventory/items/regen_potion.gd" id="1_m1riy"]
+[ext_resource type="Texture2D" uid="uid://qa6g5frun3ol" path="res://arts/Shikashi's Fantasy Icons Pack v2/#1 - Transparent Icons.png" id="2_f7bqw"]
+[ext_resource type="Resource" uid="uid://dmrtbowqaucmj" path="res://inventory/items/regeneration_potion.tres" id="2_vf7ii"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f52cg"]
+atlas = ExtResource("2_f7bqw")
+region = Rect2(101, 291, 22, 26)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s3mgl"]
+radius = 10.0499
+
+[node name="regen_potion" type="StaticBody2D"]
+script = ExtResource("1_m1riy")
+item = ExtResource("2_vf7ii")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.63, 0.63)
+texture = SubResource("AtlasTexture_f52cg")
+
+[node name="interactable_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interactable_area"]
+shape = SubResource("CircleShape2D_s3mgl")
+
+[connection signal="body_entered" from="interactable_area" to="." method="_on_interactable_area_body_entered"]

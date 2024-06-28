@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="InvItem" load_steps=4 format=3 uid="uid://dmrtbowqaucmj"]
+
+[ext_resource type="Script" path="res://inventory/inventory_item.gd" id="1_f6wwc"]
+[ext_resource type="Texture2D" uid="uid://qa6g5frun3ol" path="res://arts/Shikashi's Fantasy Icons Pack v2/#1 - Transparent Icons.png" id="2_0icgn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33mtl"]
+atlas = ExtResource("2_0icgn")
+region = Rect2(101, 291, 22, 26)
+
+[resource]
+script = ExtResource("1_f6wwc")
+name = "regen_potion"
+texture = SubResource("AtlasTexture_33mtl")
+healing_amount = 0
+max_stack_size = 99
+speed_increase = 0
+effect_duration = 5.0
+regen_increase = 10

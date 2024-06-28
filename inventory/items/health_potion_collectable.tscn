@@ -17,7 +17,7 @@ item = ExtResource("2_an30o")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4.25, -6)
-scale = Vector2(0.630435, 0.571429)
+scale = Vector2(0.695, 0.63)
 texture = SubResource("AtlasTexture_gi667")
 
 [node name="interactable_area" type="Area2D" parent="."]

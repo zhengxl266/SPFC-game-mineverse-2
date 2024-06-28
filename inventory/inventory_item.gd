@@ -8,3 +8,4 @@ class_name InvItem
 @export var max_stack_size: int = 99
 @export var speed_increase: int = 0
 @export var effect_duration: float = 0
+@export var regen_increase : int = 0

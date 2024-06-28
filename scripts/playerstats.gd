@@ -32,6 +32,7 @@ func check_level_up():
 		level += 1
 		current_xp -= max_xp
 		emit_signal("player_leveled_up", level)
+		print("Player leveled up to level ", level)
 	elif level == MAX_LEVEL:
 		current_xp = 0
 

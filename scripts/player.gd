@@ -29,7 +29,13 @@ var speed_boost_amount = 0
 var speed_boost_duration = 0
 var speed_boost_timer: Timer
 var base_speed: int = 100
-const GROWTH_RATE: float = 2.50
+const GROWTH_RATE: float = 1.2
+
+
+var regeneration_boosted = false
+var regeneration_boost_amount = 0
+var regeneration_boost_duration = 0
+var regeneration_boost_timer: Timer 
 
 func _ready():
 	base_speed = speed
@@ -37,6 +43,12 @@ func _ready():
 	add_child(speed_boost_timer)
 	speed_boost_timer.one_shot = true
 	speed_boost_timer.timeout.connect(_on_speed_boost_timer_timeout)
+	
+	regeneration_boost_timer = Timer.new()
+	add_child(regeneration_boost_timer)
+	regeneration_boost_timer.one_shot = true
+	regeneration_boost_timer.timeout.connect(_on_regeneration_boost_timer_timeout)
+	
 	if inv == null:
 		inv = load("res://inventory/playerinv.tres").duplicate()
 	health_component.max_health = 100
@@ -50,6 +62,8 @@ func _ready():
 	set_level(PlayerStats.level)
 	level_label.text = str(PlayerStats.level)
 	damage_component.set_damage_by_level(_level, GROWTH_RATE)
+	set_player_damage(_level)
+	add_to_group("player")
 	print("Initial damage amount for level ", _level, " is: ", damage_component.damage_amount)
 	
 func _physics_process(delta):
@@ -179,7 +193,9 @@ func _on_hitbox_component_body_exited(body):
 
 func enemy_attack():
 	if hitbox_component.enemy_in_range and hitbox_component.enemy_attack_cd == true:
-		health_component.take_damage(damage_component.damage_amount)
+		var enemy = hitbox_component.get_overlapping_bodies().filter(func(body): return body.has_method('enemy'))[0]
+		if enemy:
+			health_component.take_damage(enemy.get_damage())
 		hitbox_component.enemy_attack_cd = false
 		$attack_cd.start()
 
@@ -256,8 +272,11 @@ func update_health():
 		healthbar.visible = true
 
 func _on_regen_timer_timeout():
-	if health_component.current_health < 100 && health_component.current_health > 0 :
-		health_component.current_health += 50
+	if health_component.current_health < health_component.max_health && health_component.current_health > 0 :
+		var regen_rate = health_component.regeneration_rate
+		if regeneration_boosted:
+			regen_rate += regeneration_boost_amount
+		health_component.current_health += regen_rate
 		if health_component.current_health > 100:
 			health_component.current_health = 100
 	if health_component.current_health <= 0:
@@ -293,8 +312,11 @@ func _on_player_leveled_up(new_level):
 
 
 func set_player_damage(level:int) -> void:
-	damage_component.damage_amount = damage_component.base_amount* pow(GROWTH_RATE,level-1)
+	var new_damage = damage_component.set_damage_by_level(level, GROWTH_RATE)
 	print("Player damage updated to: ", damage_component.damage_amount)
+
+func get_attack_damage():
+	return damage_component.deal_damage()
 
 
 func collect(item):
@@ -309,6 +331,8 @@ func use_item(slot_index: int):
 				health_component.current_health = health_component.max_health
 		elif slot.item.speed_increase >0:
 			apply_speed_boost(slot.item.speed_increase, slot.item.effect_duration)
+		elif slot.item.regen_increase > 0:
+			apply_regeneration_boost(slot.item.regen_increase, slot.item.effect_duration)
 		slot.amount -= 1
 		if slot.amount <= 0:
 			slot.item = null
@@ -332,6 +356,19 @@ func _on_speed_boost_timer_timeout():
 	speed_boosted = false
 	speed_boost_amount = 0
 	speed_boost_duration = 0
+
+func apply_regeneration_boost(amount: int, duration: float):
+	regeneration_boost_amount = amount
+	regeneration_boost_duration = duration
+	health_component.regeneration_rate += regeneration_boost_amount
+	regeneration_boosted = true
+	regeneration_boost_timer.start(duration)
+
+func _on_regeneration_boost_timer_timeout():
+	health_component.regeneration_rate -= regeneration_boost_amount
+	regeneration_boosted = false
+	regeneration_boost_amount = 0
+	regeneration_boost_duration = 0
 
 func reset_game():
 	Global.reset_game_state(inv)

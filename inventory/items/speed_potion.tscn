@@ -16,6 +16,7 @@ script = ExtResource("1_kopts")
 item = ExtResource("2_een7h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.63, 0.63)
 texture = SubResource("AtlasTexture_p6kwl")
 
 [node name="interactable_area" type="Area2D" parent="."]

@@ -10,10 +10,11 @@ var damage_amount: int
 func _ready():
 	damage_amount = base_amount
 	
-func set_damage_by_level(level: int, growth_rate: float) -> void:
+func set_damage_by_level(level: int, growth_rate: float) -> int:
 	damage_amount = base_amount * pow(growth_rate, level-1)
+	return damage_amount
 
-func deal_damage(target: Node):
+func deal_damage(target: Node = null):
 	var final_damage = damage_amount
 	final_damage += randi()%(damage_amount/2)
 	
@@ -23,8 +24,9 @@ func deal_damage(target: Node):
 		final_damage*=crit_multiplier
 		is_critical = true
 		
-	if target.has_method("take_damage"):
-		target.take_damage(final_damage)
+	if target != null:
+		if target.has_method("take_damage"):
+			target.take_damage(final_damage)
 		
 	return {
 		"damage": final_damage,
