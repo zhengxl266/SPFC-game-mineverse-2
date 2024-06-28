@@ -20,9 +20,10 @@ centered = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 custom_minimum_size = Vector2(32, 34)
-layout_mode = 0
-offset_right = 32.0
-offset_bottom = 34.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="Panel" type="Panel" parent="CenterContainer"]
 layout_mode = 2

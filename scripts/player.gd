@@ -24,10 +24,19 @@ var input = Vector2.ZERO
 
 var _level: int = 1
 
-
+var speed_boosted = false
+var speed_boost_amount = 0
+var speed_boost_duration = 0
+var speed_boost_timer: Timer
+var base_speed: int = 100
 const GROWTH_RATE: float = 2.50
 
 func _ready():
+	base_speed = speed
+	speed_boost_timer = Timer.new()
+	add_child(speed_boost_timer)
+	speed_boost_timer.one_shot = true
+	speed_boost_timer.timeout.connect(_on_speed_boost_timer_timeout)
 	if inv == null:
 		inv = load("res://inventory/playerinv.tres").duplicate()
 	health_component.max_health = 100
@@ -293,10 +302,13 @@ func collect(item):
 
 func use_item(slot_index: int):
 	var slot = inv.slots[slot_index]
-	if slot and slot.item and slot.item.healing_amount > 0:
-		health_component.current_health += slot.item.healing_amount
-		if health_component.current_health > health_component.max_health:
-			health_component.current_health = health_component.max_health
+	if slot and slot.item:
+		if slot.item.healing_amount > 0:
+			health_component.current_health += slot.item.healing_amount
+			if health_component.current_health > health_component.max_health:
+				health_component.current_health = health_component.max_health
+		elif slot.item.speed_increase >0:
+			apply_speed_boost(slot.item.speed_increase, slot.item.effect_duration)
 		slot.amount -= 1
 		if slot.amount <= 0:
 			slot.item = null
@@ -308,6 +320,18 @@ func _input(event):
 			if inv.slots.size() > 0:
 				use_item(i)
 
+func apply_speed_boost(amount: int, duration: float):
+	speed_boost_amount = amount
+	speed_boost_duration = duration
+	speed = base_speed + speed_boost_amount
+	speed_boosted = true
+	speed_boost_timer.start(duration)
+
+func _on_speed_boost_timer_timeout():
+	speed = base_speed
+	speed_boosted = false
+	speed_boost_amount = 0
+	speed_boost_duration = 0
 
 func reset_game():
 	Global.reset_game_state(inv)

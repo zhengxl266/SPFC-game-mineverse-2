@@ -17,7 +17,7 @@ func _ready():
 func connect_to_level_up_signal():
 	PlayerStats.player_leveled_up.connect(_on_player_leveled_up)
 	
-func _on_player_leveled_up():
+func _on_player_leveled_up(new_level):
 	pass
 
 func gain_xp(amount):

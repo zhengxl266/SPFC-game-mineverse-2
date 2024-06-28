@@ -13,3 +13,5 @@ name = "Health Potion"
 texture = SubResource("AtlasTexture_xhh3i")
 healing_amount = 50
 max_stack_size = 99
+speed_increase = 0
+effect_duration = 0.0

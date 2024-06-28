@@ -34,7 +34,7 @@ func update_to_slot(slot: InvSlot):
 			"is_hotbar": true  
 		}
 
-func _get_drag_data(at_position):
+func _get_drag_data(_at_position):
 	print("Get drag data called for hotbar slot. Drag data: ", drag_data)
 	if drag_data:
 		var preview = Control.new()
@@ -62,10 +62,10 @@ func _get_drag_data(at_position):
 		return drag_data
 	return null
 
-func _can_drop_data(at_position, data):
+func _can_drop_data(_at_position, data):
 	return data is Dictionary and data.has("item")
 
-func _drop_data(at_position, data):
+func _drop_data(_at_position, data):
 	if inv:
 		var target_slot = slot_index
 		if data.get("is_hotbar", false):

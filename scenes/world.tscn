@@ -577,6 +577,7 @@ shape = SubResource("RectangleShape2D_5mfos")
 position = Vector2(75, 44)
 
 [node name="CanvasModulate" parent="." instance=ExtResource("10_rj4j4")]
+visible = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -14,6 +14,7 @@ extends CharacterBody2D
 @export var drop_chance: float = 1.0
 @export var drop_item: InvItem
 @export var hp_potion_scene: PackedScene
+@export var spd_potion_scene: PackedScene
 
 var player_chasing = false
 var player = null
@@ -25,6 +26,7 @@ func _ready():
 	health_component.heal_to_max()
 	damage_component.base_amount = base_damage
 	hp_potion_scene = load("res://inventory/items/health_potion_collectable.tscn")
+	spd_potion_scene = load("res://inventory/items/speed_potion.tscn")
 	
 func _physics_process(delta):
 	deal_with_damage()
@@ -82,6 +84,11 @@ func die():
 			if health_potion_instance:
 				health_potion_instance.global_position = global_position
 				get_parent().add_child(health_potion_instance)
+		if spd_potion_scene:
+			var spd_potion_instance = spd_potion_scene.instantiate()
+			if spd_potion_instance:
+				spd_potion_instance.global_position = global_position
+				get_parent().add_child(spd_potion_instance)
 	queue_free()
 
 func _on_take_damage_cd_timeout():

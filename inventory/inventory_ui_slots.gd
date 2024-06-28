@@ -49,11 +49,9 @@ func _get_drag_data(at_position):
 		if item_visuals.texture:
 			texture_rect.texture = item_visuals.texture
 			print("Preview texture set: ", item_visuals.texture)
-
+		
 		preview.add_child(texture_rect)
 		
-		set_drag_preview(preview)
-		print("Drag preview created")
 		return drag_data
 	return null
 

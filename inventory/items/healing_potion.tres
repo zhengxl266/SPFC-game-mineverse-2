@@ -12,3 +12,5 @@ script = ExtResource("1_r6o1m")
 name = "Healing potion"
 texture = SubResource("AtlasTexture_ognl3")
 healing_amount = 0
+max_stack_size = 99
+speed_increase = 0
