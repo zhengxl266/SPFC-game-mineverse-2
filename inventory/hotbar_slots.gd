@@ -6,10 +6,8 @@ var drag_data = null
 var slot_index: int
 var inv: Inv
 
-func update(slot: InvSlot, index: int, inventory: Inv):
-	print("Updating slot ", index, " with item: ", slot.item, " amount: ", slot.amount)
-	slot_index = index
-	inv = inventory
+func update_to_slot(slot: InvSlot):
+	print("Updating hotbar slot ", slot_index, " with item: ", slot.item, " amount: ", slot.amount)
 	if slot == null or slot.item == null:
 		item_visuals.visible = false
 		amount_text.visible = false
@@ -18,9 +16,9 @@ func update(slot: InvSlot, index: int, inventory: Inv):
 		item_visuals.visible = true
 		if slot.item.texture:
 			item_visuals.texture = slot.item.texture
-			print("Item texture set: ", slot.item.texture)
+			print("Hotbar item texture set: ", slot.item.texture)
 		else:
-			print("Warning: slot.item.texture is null")
+			print("Warning: hotbar slot.item.texture is null")
 			item_visuals.texture = null
 		
 		if slot.amount > 1:
@@ -32,41 +30,48 @@ func update(slot: InvSlot, index: int, inventory: Inv):
 		drag_data = {
 			"item": slot.item,
 			"amount": slot.amount,
-			"origin_slot": slot_index
+			"origin_slot": slot_index,
+			"is_hotbar": true  
 		}
 
 func _get_drag_data(at_position):
-	print("Get drag data called. Drag data: ", drag_data)
+	print("Get drag data called for hotbar slot. Drag data: ", drag_data)
 	if drag_data:
 		var preview = Control.new()
 		preview.set_anchors_preset(Control.PRESET_CENTER)
 		
 		var texture_rect = TextureRect.new()
 		texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		texture_rect.size = Vector2(32, 32) 
+		texture_rect.size = Vector2(32, 32)  
 		texture_rect.position = -texture_rect.size / 2  
 		
 		if item_visuals.texture:
 			texture_rect.texture = item_visuals.texture
-			print("Preview texture set: ", item_visuals.texture)
+			print("Hotbar preview texture set: ", item_visuals.texture)
+		else:
+			print("Warning: hotbar item_visuals.texture is null")
+			var placeholder = ColorRect.new()
+			placeholder.size = Vector2(32, 32)
+			placeholder.color = Color(1, 0, 0, 0.5) 
+			texture_rect.add_child(placeholder)
 
 		preview.add_child(texture_rect)
 		
 		set_drag_preview(preview)
-		print("Drag preview created")
+		print("Hotbar drag preview created")
 		return drag_data
 	return null
 
 func _can_drop_data(at_position, data):
-	print("Can drop data called. Data: ", data)
 	return data is Dictionary and data.has("item")
 
 func _drop_data(at_position, data):
-	print("Drop data called. Data: ", data)
 	if inv:
-		print("Moving item from slot ", data["origin_slot"], " to slot ", slot_index)
-		inv.move_item(data["origin_slot"], slot_index)
+		var target_slot = slot_index
+		if data.get("is_hotbar", false):
+			inv.move_item(data["origin_slot"], target_slot)
+		else:
+			inv.move_item(data["origin_slot"], target_slot)
+		update_to_slot(inv.slots[target_slot])
 	else:
-		print("Error: Inventory is null")
-
-
+		print("Error: Inventory is null in hotbar slot")

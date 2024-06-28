@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b5rtgd83xdoyk"]
+[gd_scene load_steps=9 format=3 uid="uid://b5rtgd83xdoyk"]
 
 [ext_resource type="Script" path="res://scripts/grass_to_snow.gd" id="1_ohacx"]
 [ext_resource type="TileSet" uid="uid://dyrq7h5i02yyh" path="res://scenes/grass_snow_tileset.tres" id="2_107ju"]
 [ext_resource type="PackedScene" uid="uid://digw6jgcbqt8l" path="res://scenes/player.tscn" id="3_skscc"]
 [ext_resource type="PackedScene" uid="uid://c8x0rcllec7w5" path="res://scenes/canvas_modulate.tscn" id="4_buiv0"]
 [ext_resource type="PackedScene" uid="uid://b4mitotcubsj0" path="res://scenes/daynightcycle_ui.tscn" id="5_gl88k"]
+[ext_resource type="PackedScene" uid="uid://dt5avhnd2ms2x" path="res://inventory/hotbar.tscn" id="5_pwclt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xir27"]
 size = Vector2(48, 31)
@@ -50,6 +51,13 @@ anchor_bottom = 0.038
 offset_right = -0.880005
 offset_bottom = -0.0400009
 scale = Vector2(2, 2)
+
+[node name="Hotbar" parent="CanvasLayer" instance=ExtResource("5_pwclt")]
+offset_left = -5.0
+offset_top = 89.0
+offset_right = 135.0
+offset_bottom = 129.0
+scale = Vector2(1.5, 1.5)
 
 [node name="grass_to_snow to snowmap" type="Area2D" parent="."]
 

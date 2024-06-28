@@ -12,8 +12,10 @@ func _ready():
 	
 func update_slots():
 	for i in range(min(inv.slots.size(),slots.size())):
-		slots[i].update(inv.slots[i])
+		var slot_button = slots[i]
+		slot_button.update(inv.slots[i],i, inv)
 
+		
 func _process(delta):
 	if Input.is_action_just_pressed("i"):
 		if is_open:
@@ -30,3 +32,4 @@ func close():
 	visible = false
 	is_open = false
 	
+

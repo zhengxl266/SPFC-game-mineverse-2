@@ -12,3 +12,4 @@ script = ExtResource("1_4g52k")
 name = "Health Potion"
 texture = SubResource("AtlasTexture_xhh3i")
 healing_amount = 50
+max_stack_size = 99

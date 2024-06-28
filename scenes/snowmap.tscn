@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://h25lho32xoh1"]
+[gd_scene load_steps=24 format=3 uid="uid://h25lho32xoh1"]
 
 [ext_resource type="Script" path="res://scripts/snowmap.gd" id="1_03wjs"]
 [ext_resource type="Texture2D" uid="uid://cwu2ogcrxygwf" path="res://arts/Other tilesets/IceTileset.png" id="1_ludn8"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b4mitotcubsj0" path="res://scenes/daynightcycle_ui.tscn" id="9_odd1l"]
 [ext_resource type="PackedScene" uid="uid://dk0ghg057twxb" path="res://scenes/enemy.tscn" id="10_b5c23"]
 [ext_resource type="PackedScene" uid="uid://c8x0rcllec7w5" path="res://scenes/canvas_modulate.tscn" id="10_lqjyq"]
+[ext_resource type="PackedScene" uid="uid://dt5avhnd2ms2x" path="res://inventory/hotbar.tscn" id="13_jqpi7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_63tcq"]
 texture = ExtResource("1_ludn8")
@@ -27419,6 +27420,13 @@ anchor_bottom = 0.424
 offset_right = -829.44
 offset_bottom = -457.92
 scale = Vector2(2, 2)
+
+[node name="Hotbar" parent="CanvasLayer" instance=ExtResource("13_jqpi7")]
+offset_left = -5.0
+offset_top = 89.0
+offset_right = 135.0
+offset_bottom = 129.0
+scale = Vector2(1.5, 1.5)
 
 [node name="snowmap_to_grass_to_snow" type="Area2D" parent="."]
 

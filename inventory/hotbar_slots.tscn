@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1m24wkxbo81q"]
+[gd_scene load_steps=4 format=3 uid="uid://kvuvlet37wig"]
 
-[ext_resource type="Script" path="res://inventory/inventory_ui_slots.gd" id="1_2oraf"]
-[ext_resource type="Texture2D" uid="uid://bnhr8tnrpetjj" path="res://arts/Others/panelbackground.png" id="1_er00i"]
-[ext_resource type="FontFile" uid="uid://bnqx0x6dyg815" path="res://UI/fonts/pixelmix.ttf" id="3_2ff8p"]
+[ext_resource type="Script" path="res://inventory/hotbar_slots.gd" id="1_ky6rb"]
+[ext_resource type="Texture2D" uid="uid://bnhr8tnrpetjj" path="res://arts/Others/panelbackground.png" id="2_4kcll"]
+[ext_resource type="FontFile" uid="uid://bnqx0x6dyg815" path="res://UI/fonts/pixelmix.ttf" id="3_72o02"]
 
-[node name="Inventory_UI_slots" type="Panel"]
+[node name="Hotbar_slots" type="Panel"]
 modulate = Color(0.703808, 0.703808, 0.703808, 1)
 self_modulate = Color(1, 1, 1, 0)
 show_behind_parent = true
@@ -12,10 +12,10 @@ custom_minimum_size = Vector2(32, 34)
 offset_right = 32.0
 offset_bottom = 34.0
 mouse_filter = 2
-script = ExtResource("1_2oraf")
+script = ExtResource("1_ky6rb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_er00i")
+texture = ExtResource("2_4kcll")
 centered = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -37,6 +37,6 @@ offset_top = 6.0
 offset_right = 28.0
 offset_bottom = 26.0
 scale = Vector2(0.5, 0.5)
-theme_override_fonts/font = ExtResource("3_2ff8p")
+theme_override_fonts/font = ExtResource("3_72o02")
 text = "99"
 horizontal_alignment = 2

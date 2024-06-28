@@ -303,9 +303,10 @@ func use_item(slot_index: int):
 		inv.update.emit()
 		
 func _input(event):
-	if event.is_action_pressed("use_item_1"): 
-		if inv.slots.size() > 0:
-			use_item(0)
+	for i in range(4):
+		if event.is_action_pressed("use_item_" + str(i + 1)): 
+			if inv.slots.size() > 0:
+				use_item(i)
 
 
 func reset_game():

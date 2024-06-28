@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dhqw136nk1hu0"]
+[gd_scene load_steps=25 format=3 uid="uid://dhqw136nk1hu0"]
 
 [ext_resource type="Texture2D" uid="uid://cnkyi57431d87" path="res://arts/tilesets/plains.png" id="1_8j0dx"]
 [ext_resource type="Script" path="res://scripts/cliff_side.gd" id="1_mdosb"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dk0ghg057twxb" path="res://scenes/enemy.tscn" id="11_cklci"]
 [ext_resource type="PackedScene" uid="uid://c8x0rcllec7w5" path="res://scenes/canvas_modulate.tscn" id="12_nhupn"]
 [ext_resource type="PackedScene" uid="uid://b4mitotcubsj0" path="res://scenes/daynightcycle_ui.tscn" id="12_ttn0y"]
+[ext_resource type="PackedScene" uid="uid://dt5avhnd2ms2x" path="res://inventory/hotbar.tscn" id="14_rnhl6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rctxn"]
 texture = ExtResource("1_8j0dx")
@@ -2362,6 +2363,13 @@ anchor_bottom = 0.424
 offset_right = -829.44
 offset_bottom = -457.92
 scale = Vector2(2, 2)
+
+[node name="Hotbar" parent="CanvasLayer" instance=ExtResource("14_rnhl6")]
+offset_left = -5.0
+offset_top = 89.0
+offset_right = 135.0
+offset_bottom = 129.0
+scale = Vector2(1.5, 1.5)
 
 [connection signal="body_entered" from="cliffside_world portal" to="." method="_on_cliffside_world_portal_body_entered"]
 [connection signal="body_exited" from="cliffside_world portal" to="." method="_on_cliffside_world_portal_body_exited"]

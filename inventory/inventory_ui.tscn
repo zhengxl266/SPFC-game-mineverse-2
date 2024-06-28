@@ -11,9 +11,10 @@ region = Rect2(448.43, 671.918, 31.6205, 32.0259)
 [node name="Inventory_UI" type="Control"]
 custom_minimum_size = Vector2(150, 120)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 150.0
-offset_bottom = 120.0
+anchor_right = 0.031
+anchor_bottom = 0.044
+offset_right = 90.48
+offset_bottom = 72.48
 scale = Vector2(0.4, 0.4)
 script = ExtResource("1_svbto")
 
