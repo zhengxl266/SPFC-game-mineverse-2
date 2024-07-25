@@ -9,6 +9,9 @@ const world_height = 280
 const min_enemies = 2
 const max_enemies = 4
 
+const PLAYER_EXIT_WORLD = Vector2(14, 178)
+const PLAYER_EXIT_SNOWMAP = Vector2(450, 100)  
+
 func _ready():
 	set_player_position_entry_point()
 	
@@ -32,6 +35,7 @@ func _on_portal_to_world_body_entered(body):
 
 func _defer_scene_transition_to_world():
 	Global.transition_scene = true
+	Global.previous_scene = "grass_to_snow"
 	Global.target_scene = "world"
 	get_tree().change_scene_to_file("res://scenes/world.tscn")
 	Global.game_first_loadin = false
@@ -50,12 +54,14 @@ func inst(pos):
 	instance.position = pos
 	add_child(instance)
 
+
 func _on_grass_to_snow_to_snowmap_body_entered(body):
 	if body.has_method("player"):
 		call_deferred("_defer_scene_transition_to_snowmap")
 
 func _defer_scene_transition_to_snowmap():
 	Global.transition_scene = true
+	Global.previous_scene = "grass_to_snow"
 	Global.target_scene = "snowmap"
 	get_tree().change_scene_to_file("res://scenes/snowmap.tscn")
 	Global.game_first_loadin = false
@@ -65,13 +71,21 @@ func set_player_position_entry_point():
 	if Global.previous_scene == "world":
 		$player.position = Vector2(14, 178)
 	elif Global.previous_scene == "snowmap":
-		$player.position = Vector2(450, 100)  # Adjust these coordinates as needed
-	else:
-		print("Unexpected previous scene:", Global.previous_scene)
-		$player.position = Vector2(Global.player_exit_grass_to_snow_posx, Global.player_exit_grass_to_snow_posy)
+		$player.position = Vector2(450, 100)  
 
-# Add this function to handle any input if needed
+
+func set_player_position(pos: Vector2):
+	$player.position = pos
+	$player.respawn_position = pos
+
+func set_player_position_based_on_previous_scene():
+	match Global.previous_scene:
+		"world":
+			set_player_position(PLAYER_EXIT_WORLD)
+		"snowmap":
+			set_player_position(PLAYER_EXIT_SNOWMAP)
+
+
 func _input(event):
-	if event.is_action_pressed("ui_cancel"):  # Escape key by default
+	if event.is_action_pressed("ui_cancel"):  
 		Pausemanager.toggle_pause()
-		

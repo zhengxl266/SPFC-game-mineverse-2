@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://osb7wr22kpwu"]
+
+[ext_resource type="Texture2D" uid="uid://bnhr8tnrpetjj" path="res://arts/Others/panelbackground.png" id="2_0ud15"]
+[ext_resource type="FontFile" uid="uid://bnqx0x6dyg815" path="res://UI/fonts/pixelmix.ttf" id="3_t1yhe"]
+
+[sub_resource type="GDScript" id="GDScript_63nrj"]
+script/source = "extends Panel
+class_name StoneSlot
+
+@onready var item_visuals: Sprite2D = $CenterContainer/Panel/item_display
+@onready var amount_text: Label = $CenterContainer/Panel/Label
+var drag_data = null
+var slot_index: int
+var inv: Inv
+
+func update(slot: InvSlot, index: int, inventory: Inv):
+	slot_index = index
+	inv = inventory
+	if slot == null or slot.item == null:
+		item_visuals.visible = false
+		amount_text.visible = false
+		drag_data = null
+	else:
+		item_visuals.visible = true
+		if slot.item.texture:
+			item_visuals.texture = slot.item.texture
+		else:
+			item_visuals.texture = null
+		
+		if slot.amount > 1:
+			amount_text.visible = true
+			amount_text.text = str(slot.amount)
+		else:
+			amount_text.visible = false
+		
+		drag_data = {
+			\"item\": slot.item,
+			\"amount\": slot.amount,
+			\"origin_slot\": slot_index
+		}
+
+func get_drag_data(_position):
+	return drag_data
+
+func can_drop_data(_position, data):
+	if data is Dictionary and data.has(\"item\"):
+		return data[\"item\"].is_stone
+	return false
+
+func drop_data(_position, data):
+	if inv:
+		inv.move_item(data[\"origin_slot\"], slot_index)  # true indicates it's a stone slot
+	else:
+		print(\"Error: Inventory is null\")
+"
+
+[node name="stone_slots" type="Panel"]
+modulate = Color(0.703808, 0.703808, 0.703808, 1)
+self_modulate = Color(1, 1, 1, 0)
+show_behind_parent = true
+custom_minimum_size = Vector2(32, 34)
+offset_right = 32.0
+offset_bottom = 34.0
+mouse_filter = 2
+script = SubResource("GDScript_63nrj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0ud15")
+centered = false
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(32, 34)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="item_display" type="Sprite2D" parent="CenterContainer/Panel"]
+
+[node name="Label" type="Label" parent="CenterContainer/Panel"]
+custom_minimum_size = Vector2(26, 20)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 6.0
+offset_right = 28.0
+offset_bottom = 26.0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("3_t1yhe")
+text = "99"
+horizontal_alignment = 2

@@ -6,50 +6,62 @@
 [sub_resource type="Resource" id="Resource_08567"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_1xm6c"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_gdfy4"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_xc3ww"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_pghg8"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_oaxn0"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_p1sou"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_v0yph"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_mcjen"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_8ssuo"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_puhum"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [sub_resource type="Resource" id="Resource_nydfs"]
 script = ExtResource("2_o8grs")
 amount = 0
+slot_type = 0
 
 [resource]
 script = ExtResource("2_w2s7y")

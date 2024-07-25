@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 class_name Player
 
+signal attack_ended
 
 @export var inv : Inv
 @export var speed: int = 100
@@ -37,6 +38,9 @@ var regeneration_boost_amount = 0
 var regeneration_boost_duration = 0
 var regeneration_boost_timer: Timer 
 
+var permanent_hp_increase: int = 0
+var permanent_speed_increase: int = 0
+
 func _ready():
 	base_speed = speed
 	speed_boost_timer = Timer.new()
@@ -66,6 +70,8 @@ func _ready():
 	add_to_group("player")
 	print("Initial damage amount for level ", _level, " is: ", damage_component.damage_amount)
 	
+	connect_attack_signal_to_enemies()
+	
 func _physics_process(delta):
 	if health_component.has_method("get_current_health") and health_component.get_current_health() <= 0 and player_alive:
 		player_alive = false
@@ -87,8 +93,6 @@ func _physics_process(delta):
 		check_level_up()
 
 func check_level_up():
-	print("Current XP: ", PlayerStats.current_xp)
-	print("Max XP for level ", PlayerStats.level, ": ", PlayerStats.get_max_xp_at(PlayerStats.level))
 	if PlayerStats.current_xp >= PlayerStats.get_max_xp_at(PlayerStats.level):
 		PlayerStats.current_xp = 0
 		PlayerStats.level += 1
@@ -243,9 +247,16 @@ func _on_deal_attack_timer_timeout():
 	$deal_attack_timer.stop()
 	Global.player_current_attack = false
 	attack_ip = false
+	emit_signal("attack_ended")
 
 func _on_sword_slash_timer_timeout():
 	sword_slash_on_cooldown = false
+
+func connect_attack_signal_to_enemies():
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for enemy in enemies:
+		if enemy.has_method("_on_player_attack_ended"):
+			connect("attack_ended", Callable(enemy, "_on_player_attack_ended"))
 
 
 func current_camera():
@@ -266,7 +277,7 @@ func update_health():
 	var healthbar = $hp_bar
 	healthbar.value = health_component.current_health
 
-	if health_component.current_health >= 100:
+	if health_component.current_health >= health_component.max_health:
 		healthbar.visible = false
 	else:
 		healthbar.visible = true
@@ -325,14 +336,25 @@ func collect(item):
 func use_item(slot_index: int):
 	var slot = inv.slots[slot_index]
 	if slot and slot.item:
-		if slot.item.healing_amount > 0:
+		if slot.item.is_stone:
+			if slot.item.permanent_hp_increase > 0:
+				permanent_hp_increase += slot.item.permanent_hp_increase
+				health_component.max_health += slot.item.permanent_hp_increase
+				health_component.current_health += slot.item.permanent_hp_increase
+				print(health_component.max_health)
+			if slot.item.permanent_speed_increase > 0:
+				permanent_speed_increase += slot.item.permanent_speed_increase
+				base_speed += slot.item.permanent_speed_increase
+				speed = base_speed
+		elif slot.item.healing_amount > 0:
 			health_component.current_health += slot.item.healing_amount
 			if health_component.current_health > health_component.max_health:
 				health_component.current_health = health_component.max_health
-		elif slot.item.speed_increase >0:
+		elif slot.item.speed_increase > 0:
 			apply_speed_boost(slot.item.speed_increase, slot.item.effect_duration)
 		elif slot.item.regen_increase > 0:
 			apply_regeneration_boost(slot.item.regen_increase, slot.item.effect_duration)
+		
 		slot.amount -= 1
 		if slot.amount <= 0:
 			slot.item = null

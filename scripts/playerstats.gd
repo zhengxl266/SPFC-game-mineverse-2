@@ -3,7 +3,7 @@ extends Node
 var current_xp = 0
 var level = 1
 const XP_DATABASE = "res://player level and stats tables/player_stats.json"
-const MAX_LEVEL = 6
+const MAX_LEVEL = 20
 const GROWTH_RATE: float = 2.50
 var XP_Table_Data = {}
 signal player_leveled_up(new_level)
@@ -23,7 +23,6 @@ func _on_player_leveled_up(new_level):
 func gain_xp(amount):
 	current_xp += amount
 	print("Gained XP: ", amount)
-	print("Current XP: ", current_xp)
 	check_level_up()
 
 func check_level_up():

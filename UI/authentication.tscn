@@ -1,50 +1,136 @@
-[gd_scene load_steps=2 format=3 uid="uid://7xil35etw3dm"]
+[gd_scene load_steps=8 format=3 uid="uid://7xil35etw3dm"]
 
 [ext_resource type="Script" path="res://UI/authentication.gd" id="1_hjn2m"]
+[ext_resource type="Texture2D" uid="uid://c57oti80y4hsx" path="res://UI/main_menu background.jpg" id="2_0cp7g"]
+
+[sub_resource type="Theme" id="Theme_3u6wc"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_jc6c8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ix4ft"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+bg_color = Color(0.137255, 0.403922, 0.152941, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 3.0
+expand_margin_right = 4.0
+expand_margin_bottom = 6.0
+shadow_size = 9
+anti_aliasing_size = 4.37
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0lfhn"]
+content_margin_left = 3.0
+bg_color = Color(0.0470588, 0.341176, 0.556863, 1)
+expand_margin_left = 4.0
+expand_margin_top = 3.0
+expand_margin_right = 4.0
+expand_margin_bottom = 6.0
+shadow_size = 9
+anti_aliasing_size = 2.083
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wppg4"]
+bg_color = Color(0.580392, 0, 0.137255, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 6
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 4
+corner_detail = 13
+expand_margin_left = 4.0
+expand_margin_top = 3.0
+expand_margin_right = 4.0
+expand_margin_bottom = 6.0
+shadow_size = 9
 
 [node name="Authentication" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = 240.0
+offset_right = 43.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_3u6wc")
 script = ExtResource("1_hjn2m")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -106.0
+offset_top = -289.0
+offset_right = 1992.0
+offset_bottom = 949.0
+texture = ExtResource("2_0cp7g")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 57.0
-offset_top = 44.0
-offset_right = 1851.0
-offset_bottom = 932.0
+offset_left = 25.0
+offset_top = 40.0
+offset_right = 1819.0
+offset_bottom = 928.0
+theme_override_constants/separation = 27
 
 [node name="statelabel" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/shadow_offset_x = 13
+theme_override_constants/outline_size = 1
+theme_override_constants/shadow_outline_size = 15
+theme_override_constants/line_spacing = 17
+theme_override_font_sizes/font_size = 25
 text = "Not Logged In"
 
 [node name="EmailLineEdit" type="LineEdit" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 placeholder_text = "Email"
+clear_button_enabled = true
 
 [node name="PasswordLineEdit" type="LineEdit" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 placeholder_text = "Password"
+clear_button_enabled = true
+right_icon = SubResource("CanvasTexture_jc6c8")
 secret = true
 
 [node name="login" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "login"
+theme_override_constants/outline_size = 0
+theme_override_constants/h_separation = 14
+theme_override_constants/icon_max_width = 10
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_ix4ft")
+text = "Login"
 
 [node name="signup" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "signup"
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_0lfhn")
+text = "Signup"
 
 [node name="quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_wppg4")
 text = "Exit"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 675.0
+offset_top = -160.0
+offset_right = 1180.0
+offset_bottom = -6.0
+theme_override_font_sizes/font_size = 80
+text = "MINEVERSE"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/login" to="." method="_on_login_pressed"]
 [connection signal="pressed" from="VBoxContainer/signup" to="." method="_on_signup_pressed"]

@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://bh0o0r7g0bh4b"]
+
+[ext_resource type="Script" path="res://inventory/items/speed_stone.gd" id="1_31qfg"]
+[ext_resource type="Resource" uid="uid://chpc78vhtks11" path="res://inventory/items/speed_stone.tres" id="2_ln21t"]
+[ext_resource type="Texture2D" uid="uid://qa6g5frun3ol" path="res://arts/Shikashi's Fantasy Icons Pack v2/#1 - Transparent Icons.png" id="3_xnqow"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gr7f"]
+atlas = ExtResource("3_xnqow")
+region = Rect2(68, 581, 25, 23)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3kns6"]
+radius = 13.0
+
+[node name="Speed stone" type="StaticBody2D"]
+script = ExtResource("1_31qfg")
+item = ExtResource("2_ln21t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4.75, -3.75)
+scale = Vector2(0.62, 0.673913)
+texture = SubResource("AtlasTexture_4gr7f")
+
+[node name="interactable_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interactable_area"]
+position = Vector2(-5, -4)
+shape = SubResource("CircleShape2D_3kns6")
+debug_color = Color(0.951543, 0.190632, 0.292418, 0.42)
+
+[connection signal="body_entered" from="interactable_area" to="." method="_on_interactable_area_body_entered"]

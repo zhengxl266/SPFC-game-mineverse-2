@@ -20,8 +20,8 @@ script = ExtResource("1_svbto")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 layout_mode = 0
-offset_right = 150.0
-offset_bottom = 120.0
+offset_right = 155.0
+offset_bottom = 122.0
 texture = SubResource("AtlasTexture_a81oq")
 patch_margin_left = 6
 patch_margin_top = 6
@@ -35,10 +35,10 @@ anchor_left = 0.033
 anchor_top = 0.042
 anchor_right = 0.967
 anchor_bottom = 0.958
-offset_left = 0.0500002
-offset_top = -0.0400004
-offset_right = -0.0500031
-offset_bottom = 0.0399933
+offset_left = 0.245
+offset_top = -0.124
+offset_right = -2.245
+offset_bottom = -1.876
 grow_horizontal = 2
 grow_vertical = 2
 columns = 4

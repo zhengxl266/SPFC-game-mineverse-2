@@ -12,6 +12,10 @@ var player_exit_grass_to_snow_posx = 459
 var player_exit_grass_to_snow_posy = 164
 var player_exit_snowmap_posx = 16
 var player_exit_snowmap_posy = 178
+var player_exit_snow_to_desert_posx = 440
+var player_exit_snow_to_desert_posy = 150
+var player_exit_desertmap_posx = 440
+var player_exit_desertmap_posy = 100
 
 var target_scene = ""
 var previous_scene = ""

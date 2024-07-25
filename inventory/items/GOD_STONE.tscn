@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnljgqkr21a2v"]
+
+[ext_resource type="Script" path="res://inventory/items/GOD_STONE.gd" id="1_eru17"]
+[ext_resource type="Resource" uid="uid://bv8p5g44ptqf6" path="res://inventory/items/god_stone.tres" id="2_70377"]
+[ext_resource type="Texture2D" uid="uid://qa6g5frun3ol" path="res://arts/Shikashi's Fantasy Icons Pack v2/#1 - Transparent Icons.png" id="3_44hfg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kr72k"]
+atlas = ExtResource("3_44hfg")
+region = Rect2(164, 581, 25, 23)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a7760"]
+radius = 15.0333
+
+[node name="GOD_STONE" type="StaticBody2D"]
+script = ExtResource("1_eru17")
+item = ExtResource("2_70377")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.63, 0.63)
+texture = SubResource("AtlasTexture_kr72k")
+
+[node name="interactable_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interactable_area"]
+shape = SubResource("CircleShape2D_a7760")
+
+[connection signal="body_entered" from="interactable_area" to="." method="_on_interactable_area_body_entered"]

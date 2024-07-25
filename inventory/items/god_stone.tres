@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="InvItem" load_steps=4 format=3 uid="uid://bv8p5g44ptqf6"]
+
+[ext_resource type="Script" path="res://inventory/inventory_item.gd" id="1_33ube"]
+[ext_resource type="Texture2D" uid="uid://qa6g5frun3ol" path="res://arts/Shikashi's Fantasy Icons Pack v2/#1 - Transparent Icons.png" id="2_osuw5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qr0j"]
+atlas = ExtResource("2_osuw5")
+region = Rect2(164, 581, 25, 23)
+
+[resource]
+script = ExtResource("1_33ube")
+name = "GOD_STONE"
+texture = SubResource("AtlasTexture_4qr0j")
+healing_amount = 0
+max_stack_size = 1
+speed_increase = 0
+effect_duration = 0.0
+regen_increase = 0
+damage = 0.0
+is_stone = true
+permanent_hp_increase = 99999
+permanent_speed_increase = 0

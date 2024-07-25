@@ -13,7 +13,6 @@ func _ready():
 		get_tree().change_scene_to_file("res://UI/main_menu.tscn")
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
@@ -56,4 +55,5 @@ func on_signup_failed(error_code,message):
 
 
 func _on_quit_pressed():
+	PlayerStats.save_player_data()
 	get_tree().quit()

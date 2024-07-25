@@ -5,6 +5,16 @@ signal update
 
 @export var slots: Array[InvSlot]
 
+func _init():
+	slots = []
+	for i in range(15):  # 15 slots total (12 general + 3 stone)
+		var slot = InvSlot.new()
+		if i < 12:  # First 12 slots are general inventory
+			slot.slot_type = 0  # NONE
+		else:  # Last 3 slots are for stones
+			slot.slot_type = 1  # STONE
+		slots.append(slot)
+
 func insert(item: InvItem):
 	print("Inserting item into inventory: ", item)
 	var itemslots = slots.filter(func(slot): return slot.item == item and slot.amount < item.max_stack_size)

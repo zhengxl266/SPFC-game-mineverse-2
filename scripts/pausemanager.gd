@@ -3,7 +3,7 @@ extends Node
 var is_paused = false
 var pause_menu_scene: PackedScene = preload("res://UI/pause_menu.tscn")
 var pause_menu_instance: Control = null
-var non_game_scenes: Array = ["res://UI/main_menu.tscn", "res://UI/game_over.tscn"]
+var non_game_scenes: Array = ["res://UI/main_menu.tscn", "res://UI/game_over.tscn","res://UI/authentication.tscn"]
 
 func _ready():
 	# Initialize the pause menu instance but do not add it to the tree yet

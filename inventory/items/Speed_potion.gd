@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @export var item: InvItem
-@export var spd_potion_scene: PackedScene
+@export var god_stone_scene: PackedScene
 var player = null
 
 

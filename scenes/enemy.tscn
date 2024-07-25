@@ -1,10 +1,29 @@
-[gd_scene load_steps=25 format=3 uid="uid://dk0ghg057twxb"]
+[gd_scene load_steps=32 format=3 uid="uid://dk0ghg057twxb"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_j5ooa"]
 [ext_resource type="Texture2D" uid="uid://j6cv8x116d5c" path="res://arts/characters/slime.png" id="1_ptfoe"]
+[ext_resource type="PackedScene" uid="uid://cet27f26gxdme" path="res://inventory/items/health_potion_collectable.tscn" id="2_o3lld"]
+[ext_resource type="Script" path="res://scripts/DropItem.gd" id="3_l4hv4"]
 [ext_resource type="PackedScene" uid="uid://c2v8kfk6f712g" path="res://scripts/hitbox_component.tscn" id="3_wtx2l"]
 [ext_resource type="PackedScene" uid="uid://bnc18030183m0" path="res://scripts/health_component.tscn" id="4_e6h3x"]
+[ext_resource type="PackedScene" uid="uid://7m7s5db48jam" path="res://inventory/items/regen_potion.tscn" id="4_nhny6"]
+[ext_resource type="PackedScene" uid="uid://cr374r7bb83pi" path="res://inventory/items/speed_potion.tscn" id="5_hadar"]
 [ext_resource type="PackedScene" uid="uid://bcdd1yr4m6ony" path="res://scripts/damage_component.tscn" id="5_r2jvp"]
+
+[sub_resource type="Resource" id="Resource_rmkud"]
+script = ExtResource("3_l4hv4")
+item_scene = ExtResource("2_o3lld")
+drop_chance = 0.5
+
+[sub_resource type="Resource" id="Resource_4ch5k"]
+script = ExtResource("3_l4hv4")
+item_scene = ExtResource("4_nhny6")
+drop_chance = 0.3
+
+[sub_resource type="Resource" id="Resource_ip7ad"]
+script = ExtResource("3_l4hv4")
+item_scene = ExtResource("5_hadar")
+drop_chance = 0.2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q35bv"]
 atlas = ExtResource("1_ptfoe")
@@ -140,10 +159,11 @@ radius = 19.0
 
 [node name="slime" type="CharacterBody2D"]
 script = ExtResource("1_j5ooa")
+drop_items = Array[ExtResource("3_l4hv4")]([SubResource("Resource_rmkud"), SubResource("Resource_4ch5k"), SubResource("Resource_ip7ad")])
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_jq6jq")
-animation = &"Walk"
+animation = &"Death"
 offset = Vector2(0, -6)
 
 [node name="detection_space" type="Area2D" parent="."]

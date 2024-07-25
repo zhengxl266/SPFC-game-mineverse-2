@@ -11,11 +11,8 @@ extends CharacterBody2D
 @export var xp_value = 50
 @export var base_damage = 5
 
-@export var drop_chance: float = 1.0
-@export var drop_item: InvItem
-@export var hp_potion_scene: PackedScene
-@export var spd_potion_scene: PackedScene
-@export var rgn_potion_scene : PackedScene
+@export var drop_items: Array[DropItem] = []
+
 
 var player_chasing = false
 var player: Node = null
@@ -26,9 +23,6 @@ var can_take_damage = true
 func _ready():
 	health_component.heal_to_max()
 	damage_component.base_amount = base_damage
-	hp_potion_scene = load("res://inventory/items/health_potion_collectable.tscn")
-	spd_potion_scene = load("res://inventory/items/speed_potion.tscn")
-	rgn_potion_scene = load("res://inventory/items/regen_potion.tscn")
 	player = get_tree().get_nodes_in_group("player")[0]
 func _physics_process(delta):
 	deal_with_damage()
@@ -81,23 +75,20 @@ func deal_with_damage():
 					die()
 				
 func die():
+	$AnimatedSprite2D.play("Death")
 	PlayerStats.gain_xp(xp_value)
-	if randi()%100 < int(drop_chance*100):
-		if hp_potion_scene:
-			var health_potion_instance = hp_potion_scene.instantiate()
-			if health_potion_instance:
-				health_potion_instance.global_position = global_position
-				get_parent().add_child(health_potion_instance)
-		if spd_potion_scene:
-			var spd_potion_instance = spd_potion_scene.instantiate()
-			if spd_potion_instance:
-				spd_potion_instance.global_position = global_position
-				get_parent().add_child(spd_potion_instance)
-		if rgn_potion_scene:
-			var rgn_potion_instance = rgn_potion_scene.instantiate()
-			if rgn_potion_instance:
-				rgn_potion_instance.global_position = global_position
-				get_parent().add_child(rgn_potion_instance)
+	
+	var roll = randf()
+	var cumulative_chance = 0.0
+	
+	for drop_item in drop_items:
+		cumulative_chance += drop_item.drop_chance
+		if roll <= cumulative_chance:
+			var item_instance = drop_item.item_scene.instantiate()
+			if item_instance:
+				item_instance.global_position = global_position
+				get_parent().add_child(item_instance)
+			break  
 	queue_free()
 
 func _on_take_damage_cd_timeout():

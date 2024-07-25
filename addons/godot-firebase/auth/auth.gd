@@ -23,6 +23,8 @@ signal token_exchanged(successful)
 signal token_refresh_succeeded(auth_result)
 signal logged_out()
 
+
+
 const RESPONSE_SIGNUP : String   = "identitytoolkit#SignupNewUserResponse"
 const RESPONSE_SIGNIN : String   = "identitytoolkit#VerifyPasswordResponse"
 const RESPONSE_ASSERTION : String  = "identitytoolkit#VerifyAssertionResponse"
@@ -672,3 +674,6 @@ func get_GitHubProvider() -> GitHubProvider:
 
 func get_TwitterProvider() -> TwitterProvider:
 	return TwitterProvider.new(_config.auth_providers.twitter_id, _config.auth_providers.twitter_secret)
+
+
+

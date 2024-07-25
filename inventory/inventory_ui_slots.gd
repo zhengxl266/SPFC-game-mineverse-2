@@ -57,7 +57,10 @@ func _get_drag_data(at_position):
 
 func _can_drop_data(at_position, data):
 	print("Can drop data called. Data: ", data)
-	return data is Dictionary and data.has("item")
+	if data is Dictionary and data.has("item"):
+		var item = data["item"]
+		return inv.slots[slot_index].slot_type == 0 or inv.slots[slot_index].slot_type == item.slot_type
+	return false
 
 func _drop_data(at_position, data):
 	print("Drop data called. Data: ", data)
