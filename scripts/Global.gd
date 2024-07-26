@@ -27,6 +27,10 @@ var ingame_time = 0.0
 
 var player_level = 1
 
+
+var player_max_health = 100
+
+
 func _ready():
 	PlayerStats.player_leveled_up.connect(_on_player_level_changed)
 
@@ -57,6 +61,7 @@ func reset_game_state(player_inventory: Inv):
 	player_start_posy = 77
 	game_first_loadin = true
 	ingame_time = 0.0
+	player_max_health = 100
 	PlayerStats.level = 1
 	PlayerStats.current_xp = 0
 	clear_player_inventory(player_inventory)

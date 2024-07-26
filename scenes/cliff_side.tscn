@@ -2346,6 +2346,7 @@ layer_2/y_sort_enabled = true
 layer_2/tile_data = PackedInt32Array(65553, 524290, 6, 65560, 524290, 6, 10, 524290, 6, 14, 524290, 6, 65556, 655362, 7, 851991, 524290, 6, 917521, 524290, 6, 917514, 524290, 6, 851974, 2, 5, 131078, 2, 5, 131074, 524290, 6, 786434, 524290, 6, 786436, 2, 1, 983053, 2, 1, 917524, 2, 1, 786457, 2, 1, 65540, 2, 1, 65536, 2, 1, 16, 2, 1, 65548, 2, 1, 65564, 524290, 6, 65567, 524290, 6, 65562, 524290, 6, 786459, 2, 5, 917534, 2, 5, 983067, 2, 1, 786462, 2, 1, 131068, 2, 5, 851964, 2, 5, 917503, 655362, 7, -65540, 655362, 7, 196606, 655362, 7, 196608, 2, 1, 917498, 2, 1, 786432, 2, 1, 983041, 2, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2(160.549, 56.3157)
@@ -2370,6 +2371,7 @@ position = Vector2(231, 168)
 position = Vector2(227, 90)
 
 [node name="CanvasModulate" parent="." instance=ExtResource("12_nhupn")]
+visible = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

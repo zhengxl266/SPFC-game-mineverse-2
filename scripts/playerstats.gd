@@ -8,6 +8,7 @@ const GROWTH_RATE: float = 2.50
 var XP_Table_Data = {}
 signal player_leveled_up(new_level)
 
+
 func _ready():
 	XP_Table_Data = get_xp_data()
 	load_player_data()
@@ -70,3 +71,6 @@ func _exit_tree():
 
 func parse_json(json_text):
 	return JSON.parse_string(json_text)
+
+
+

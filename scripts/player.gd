@@ -55,7 +55,7 @@ func _ready():
 	
 	if inv == null:
 		inv = load("res://inventory/playerinv.tres").duplicate()
-	health_component.max_health = 100
+	health_component.max_health = Global.player_max_health
 	health_component.heal_to_max()
 	PlayerStats.player_leveled_up.connect(_on_player_leveled_up)
 	print(PlayerStats.XP_Table_Data)
@@ -68,8 +68,9 @@ func _ready():
 	damage_component.set_damage_by_level(_level, GROWTH_RATE)
 	set_player_damage(_level)
 	add_to_group("player")
+	health_component.connect("max_health_changed", Callable(self, "_on_max_health_changed"))
 	print("Initial damage amount for level ", _level, " is: ", damage_component.damage_amount)
-	
+	$hp_bar.max_value = health_component.max_health
 	connect_attack_signal_to_enemies()
 	
 func _physics_process(delta):
@@ -273,8 +274,14 @@ func current_camera():
 		$cliff_side_camera.enabled = false
 		$Grass_to_snow_camera.enabled = true
 
+
+func _on_max_health_changed(new_max_health):
+	$hp_bar.max_value = new_max_health
+	update_health()
+
 func update_health():
 	var healthbar = $hp_bar
+	healthbar.max_value = Global.player_max_health
 	healthbar.value = health_component.current_health
 
 	if health_component.current_health >= health_component.max_health:
@@ -288,8 +295,8 @@ func _on_regen_timer_timeout():
 		if regeneration_boosted:
 			regen_rate += regeneration_boost_amount
 		health_component.current_health += regen_rate
-		if health_component.current_health > 100:
-			health_component.current_health = 100
+		if health_component.current_health > health_component.max_health:
+			health_component.current_health = health_component.max_health
 	if health_component.current_health <= 0:
 		health_component.current_health = 0
 
@@ -338,10 +345,11 @@ func use_item(slot_index: int):
 	if slot and slot.item:
 		if slot.item.is_stone:
 			if slot.item.permanent_hp_increase > 0:
-				permanent_hp_increase += slot.item.permanent_hp_increase
-				health_component.max_health += slot.item.permanent_hp_increase
+				Global.player_max_health += slot.item.permanent_hp_increase
+				health_component.increase_max_health(slot.item.permanent_hp_increase)
 				health_component.current_health += slot.item.permanent_hp_increase
-				print(health_component.max_health)
+				print("Max health increased to: ", health_component.max_health)
+				update_health()
 			if slot.item.permanent_speed_increase > 0:
 				permanent_speed_increase += slot.item.permanent_speed_increase
 				base_speed += slot.item.permanent_speed_increase
@@ -394,3 +402,5 @@ func _on_regeneration_boost_timer_timeout():
 
 func reset_game():
 	Global.reset_game_state(inv)
+	health_component.max_health = Global.player_max_health
+	health_component.heal_to_max()

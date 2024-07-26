@@ -3,7 +3,7 @@ class_name HealthComponent
 
 signal health_depleted
 
-@export var max_health: int = 60
+@export var max_health: int = 100
 @export var regeneration_rate: int = 5
 var current_health: int = max_health
 
@@ -37,5 +37,8 @@ func regenerate():
 			current_health = max_health
 			
 func increase_max_health(amount: int):
+	print("Before increase: max_health =", max_health, ", current_health =", current_health)
 	max_health += amount
 	current_health += amount
+	print("After increase: max_health =", max_health, ", current_health =", current_health)
+	emit_signal("max_health_changed", max_health)
