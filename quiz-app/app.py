@@ -13,7 +13,13 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # For session management
 
 # Configure OpenAI client
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+try:
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+except TypeError:
+    # Handle compatibility issue with httpx and OpenAI client
+    import httpx
+    http_client = httpx.Client()
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'), http_client=http_client)
 
 # Configuration
 UPLOAD_FOLDER = 'uploads'
