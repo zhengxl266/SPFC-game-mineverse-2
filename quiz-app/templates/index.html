@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quiz Generator and Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Quiz Generator and Tutor</h1>
+            <p>Upload a PDF document to generate an interactive quiz with AI-powered feedback</p>
+        </header>
+
+        <!-- File Upload Section -->
+        <section id="upload-section">
+            <form id="upload-form" enctype="multipart/form-data">
+                <div class="upload-area">
+                    <div class="upload-icon">📄</div>
+                    <label for="file-input" class="upload-label">
+                        <strong>Choose a PDF file</strong> or drag and drop
+                    </label>
+                    <input type="file" id="file-input" name="file" accept=".pdf" required>
+                    <p class="file-info">Maximum file size: 10MB</p>
+                </div>
+                <button type="submit" id="generate-btn" class="btn btn-primary">Generate Quiz</button>
+            </form>
+        </section>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Generating quiz... This may take a few moments.</p>
+        </div>
+
+        <!-- Quiz Container -->
+        <section id="quiz-container" class="hidden">
+            <h2>Quiz</h2>
+            <form id="quiz-form">
+                <div id="quiz-questions"></div>
+                <button type="submit" class="btn btn-success">Submit Quiz</button>
+            </form>
+        </section>
+
+        <!-- Results Container -->
+        <section id="results-container" class="hidden">
+            <h2>Quiz Results</h2>
+            <div id="results-content"></div>
+            <button id="restart-btn" class="btn btn-primary">Take Another Quiz</button>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

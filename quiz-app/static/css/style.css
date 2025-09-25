@@ -1,0 +1,266 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    color: #4a5568;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+}
+
+header p {
+    color: #718096;
+    font-size: 1.1em;
+}
+
+/* Upload Section */
+.upload-area {
+    border: 2px dashed #cbd5e0;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: #667eea;
+}
+
+.upload-area.dragover {
+    border-color: #667eea;
+    background-color: #f7fafc;
+}
+
+.upload-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.upload-label {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#file-input {
+    display: none;
+}
+
+.file-info {
+    color: #a0aec0;
+    font-size: 0.9em;
+}
+
+/* Buttons */
+.btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #5a67d8;
+}
+
+.btn:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #667eea;
+}
+
+.btn-success {
+    background: #48bb78;
+}
+
+.btn-success:hover {
+    background: #38a169;
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Quiz Section */
+#quiz-container {
+    margin-top: 30px;
+}
+
+.question {
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+}
+
+.question h3 {
+    margin-bottom: 15px;
+    color: #2d3748;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.option:hover {
+    background: #edf2f7;
+}
+
+.option input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Results Section */
+#results-container {
+    margin-top: 30px;
+}
+
+.result-item {
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.result-item.correct {
+    border-left: 4px solid #48bb78;
+}
+
+.result-item.incorrect {
+    border-left: 4px solid #f56565;
+}
+
+.result-question {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2d3748;
+}
+
+.result-answer {
+    margin-bottom: 10px;
+}
+
+.correct-answer {
+    color: #38a169;
+    font-weight: bold;
+}
+
+.incorrect-answer {
+    color: #e53e3e;
+    font-weight: bold;
+}
+
+.explanation {
+    background: #fff5f5;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border-left: 3px solid #f56565;
+}
+
+.score-summary {
+    background: #667eea;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+/* Utilities */
+.hidden {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .upload-area {
+        padding: 20px;
+    }
+    
+    .question {
+        padding: 15px;
+    }
+}

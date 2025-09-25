@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quiz Generator and Tutor</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        /* Upload Section */
+        .upload-area {
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+        }
+
+        .upload-area.dragover {
+            border-color: #667eea;
+            background-color: #f7fafc;
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .upload-label {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .file-info {
+            color: #a0aec0;
+            font-size: 0.9em;
+        }
+
+        /* Buttons */
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background: #48bb78;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Quiz Section */
+        #quiz-container {
+            margin-top: 30px;
+        }
+
+        .question {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .option:hover {
+            background: #edf2f7;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Results Section */
+        .result-item {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .result-item.correct {
+            border-left: 4px solid #48bb78;
+        }
+
+        .result-item.incorrect {
+            border-left: 4px solid #f56565;
+        }
+
+        .score-summary {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .explanation {
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #f56565;
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Quiz Generator and Tutor</h1>
+            <p>Upload a PDF document to generate an interactive quiz with AI-powered feedback</p>
+        </header>
+
+        <!-- File Upload Section -->
+        <section id="upload-section">
+            <form id="upload-form" enctype="multipart/form-data">
+                <div class="upload-area">
+                    <div class="upload-icon">📄</div>
+                    <label for="file-input" class="upload-label">
+                        <strong>Choose a PDF file</strong> or drag and drop
+                    </label>
+                    <input type="file" id="file-input" name="file" accept=".pdf">
+                    <p class="file-info">Maximum file size: 10MB</p>
+                </div>
+                <button type="submit" id="generate-btn" class="btn">Generate Quiz</button>
+            </form>
+        </section>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Generating quiz... This may take a few moments.</p>
+        </div>
+
+        <!-- Quiz Container -->
+        <section id="quiz-container" class="hidden">
+            <h2>Quiz</h2>
+            <form id="quiz-form">
+                <div id="quiz-questions"></div>
+                <button type="submit" class="btn btn-success">Submit Quiz</button>
+            </form>
+        </section>
+
+        <!-- Results Container -->
+        <section id="results-container" class="hidden">
+            <h2>Quiz Results</h2>
+            <div id="results-content"></div>
+            <button id="restart-btn" class="btn">Take Another Quiz</button>
+        </section>
+    </div>
+
+    <script>
+        // DOM elements
+        const uploadForm = document.getElementById('upload-form');
+        const fileInput = document.getElementById('file-input');
+        const uploadArea = document.querySelector('.upload-area');
+        const generateBtn = document.getElementById('generate-btn');
+        const loading = document.getElementById('loading');
+        const quizContainer = document.getElementById('quiz-container');
+        const quizForm = document.getElementById('quiz-form');
+        const quizQuestions = document.getElementById('quiz-questions');
+        const resultsContainer = document.getElementById('results-container');
+        const resultsContent = document.getElementById('results-content');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // Global quiz data
+        let currentQuiz = null;
+
+        // Event listeners
+        uploadForm.addEventListener('submit', handleFileUpload);
+        quizForm.addEventListener('submit', handleQuizSubmit);
+        restartBtn.addEventListener('click', resetApp);
+
+        // File drag and drop
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+        uploadArea.addEventListener('drop', handleDrop);
+
+        // File input change
+        fileInput.addEventListener('change', updateFileLabel);
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type === 'application/pdf') {
+                fileInput.files = files;
+                updateFileLabel();
+            } else {
+                alert('Please drop a PDF file only.');
+            }
+        }
+
+        function updateFileLabel() {
+            const fileName = fileInput.files[0]?.name;
+            if (fileName) {
+                const label = document.querySelector('.upload-label');
+                label.innerHTML = `<strong>Selected:</strong> ${fileName}`;
+            }
+        }
+
+        async function handleFileUpload(e) {
+            e.preventDefault();
+            
+            // For demo purposes, skip file validation
+            // Show loading
+            showLoading();
+            generateBtn.disabled = true;
+            
+            try {
+                const formData = new FormData();
+                // Add a dummy file for demo
+                formData.append('file', new Blob(['demo'], { type: 'application/pdf' }), 'demo.pdf');
+                
+                const response = await fetch('/generate-quiz', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to generate quiz');
+                }
+                
+                currentQuiz = data;
+                displayQuiz(data.quiz);
+                
+            } catch (error) {
+                console.error('Error generating quiz:', error);
+                alert('Error generating quiz: ' + error.message);
+                resetToUpload();
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('upload-section').classList.add('hidden');
+            loading.classList.remove('hidden');
+        }
+
+        function displayQuiz(questions) {
+            loading.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            
+            quizQuestions.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <h3>Question ${index + 1}</h3>
+                    <p><strong>${question.question}</strong></p>
+                    <div class="options">
+                        ${question.options.map((option, optionIndex) => {
+                            const letter = String.fromCharCode(65 + optionIndex);
+                            return `
+                                <label class="option">
+                                    <input type="radio" name="question-${index}" value="${letter}" required>
+                                    <span>${option}</span>
+                                </label>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                
+                quizQuestions.appendChild(questionDiv);
+            });
+        }
+
+        async function handleQuizSubmit(e) {
+            e.preventDefault();
+            
+            // Collect answers
+            const answers = [];
+            const questions = currentQuiz.quiz;
+            
+            for (let i = 0; i < questions.length; i++) {
+                const selectedOption = document.querySelector(`input[name="question-${i}"]:checked`);
+                answers.push(selectedOption ? selectedOption.value : null);
+            }
+            
+            // Show loading
+            quizContainer.classList.add('hidden');
+            showLoading();
+            
+            try {
+                const response = await fetch('/mark-quiz', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ answers })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to mark quiz');
+                }
+                
+                displayResults(data.results);
+                
+            } catch (error) {
+                console.error('Error marking quiz:', error);
+                alert('Error marking quiz: ' + error.message);
+                quizContainer.classList.remove('hidden');
+                loading.classList.add('hidden');
+            }
+        }
+
+        function displayResults(results) {
+            loading.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            
+            // Calculate score
+            const correctAnswers = results.filter(result => result.is_correct).length;
+            const totalQuestions = results.length;
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            // Create score summary
+            const scoreSummary = document.createElement('div');
+            scoreSummary.className = 'score-summary';
+            scoreSummary.innerHTML = `
+                <h3>Your Score: ${correctAnswers}/${totalQuestions} (${percentage}%)</h3>
+                <p>${getScoreMessage(percentage)}</p>
+            `;
+            
+            resultsContent.innerHTML = '';
+            resultsContent.appendChild(scoreSummary);
+            
+            // Display each result
+            results.forEach((result, index) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = `result-item ${result.is_correct ? 'correct' : 'incorrect'}`;
+                
+                let content = `
+                    <div><strong>Question ${index + 1}:</strong> ${currentQuiz.quiz[index].question}</div>
+                    <div style="margin-top: 10px;"><strong>Your Answer:</strong> ${result.user_answer || 'No answer'}</div>
+                `;
+                
+                if (!result.is_correct) {
+                    content += `<div><strong>Correct Answer:</strong> ${result.correct_answer}</div>`;
+                    if (result.explanation) {
+                        content += `<div class="explanation"><strong>Explanation:</strong><br>${result.explanation}</div>`;
+                    }
+                }
+                
+                resultDiv.innerHTML = content;
+                resultsContent.appendChild(resultDiv);
+            });
+        }
+
+        function getScoreMessage(percentage) {
+            if (percentage >= 90) return "Excellent work! You have a strong understanding of the material.";
+            if (percentage >= 80) return "Great job! You understand most of the key concepts.";
+            if (percentage >= 70) return "Good work! Review the explanations to strengthen your understanding.";
+            if (percentage >= 60) return "Not bad! There's room for improvement - review the material.";
+            return "Keep studying! Review the explanations and try again.";
+        }
+
+        function resetApp() {
+            // Reset all containers
+            document.getElementById('upload-section').classList.remove('hidden');
+            loading.classList.add('hidden');
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.add('hidden');
+            
+            // Reset form
+            uploadForm.reset();
+            generateBtn.disabled = false;
+            
+            // Reset file label
+            const label = document.querySelector('.upload-label');
+            label.innerHTML = '<strong>Choose a PDF file</strong> or drag and drop';
+            
+            // Clear data
+            currentQuiz = null;
+        }
+
+        function resetToUpload() {
+            loading.classList.add('hidden');
+            document.getElementById('upload-section').classList.remove('hidden');
+            generateBtn.disabled = false;
+        }
+    </script>
+</body>
+</html>
