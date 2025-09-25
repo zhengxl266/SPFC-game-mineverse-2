@@ -13,3 +13,9 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Quiz App specific ignores
+quiz-app/.env
+quiz-app/uploads/
+quiz-app/__pycache__/
+quiz-app/*.pyc
