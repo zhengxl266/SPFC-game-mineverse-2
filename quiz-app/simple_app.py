@@ -14,7 +14,7 @@ from urllib.parse import urlparse, parse_qs
 import cgi
 import io
 
-PORT = 5001
+PORT = 5002
 
 class QuizHandler(http.server.SimpleHTTPRequestHandler):
     """Custom handler for the quiz application"""
@@ -44,7 +44,8 @@ class QuizHandler(http.server.SimpleHTTPRequestHandler):
     def serve_index(self):
         """Serve the main HTML page"""
         try:
-            with open('templates/index.html', 'r') as f:
+            # Use standalone version with embedded CSS/JS
+            with open('templates/index_standalone.html', 'r') as f:
                 content = f.read()
             
             self.send_response(200)
@@ -88,13 +89,7 @@ class QuizHandler(http.server.SimpleHTTPRequestHandler):
     def handle_generate_quiz(self):
         """Handle quiz generation (demo version)"""
         try:
-            # Parse multipart form data
-            content_type = self.headers.get('content-type')
-            if not content_type or not content_type.startswith('multipart/form-data'):
-                self.send_json_error(400, "Invalid content type")
-                return
-            
-            # For demo purposes, return a sample quiz
+            # For demo purposes, return a sample quiz regardless of file upload
             sample_quiz = {
                 "quiz": [
                     {
@@ -183,11 +178,19 @@ class QuizHandler(http.server.SimpleHTTPRequestHandler):
             
             # Generate results
             results = []
+            sample_questions = [
+                "What is artificial intelligence?",
+                "Which of the following is a machine learning technique?", 
+                "What does PDF stand for?",
+                "Which programming language is commonly used for web development?",
+                "What is the primary purpose of a quiz application?"
+            ]
+            
             for i, user_answer in enumerate(user_answers):
                 if i < len(correct_answers):
                     is_correct = user_answer == correct_answers[i]
                     result = {
-                        "question": f"Sample question {i + 1}",
+                        "question": sample_questions[i] if i < len(sample_questions) else f"Sample question {i + 1}",
                         "options": [f"Option {j}" for j in range(4)],
                         "user_answer": user_answer,
                         "correct_answer": correct_answers[i],
