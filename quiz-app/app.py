@@ -13,7 +13,12 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # For session management
 
 # Configure OpenAI client
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+try:
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+except Exception as e:
+    print(f"Warning: Failed to initialize OpenAI client: {e}")
+    print("The app will start but quiz generation will not work without a valid OpenAI API key.")
+    client = None
 
 # Configuration
 UPLOAD_FOLDER = 'uploads'
@@ -44,10 +49,24 @@ def index():
     """Serve the main page."""
     return render_template('index.html')
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint to verify the app is running."""
+    status = {
+        'status': 'healthy',
+        'openai_client': 'initialized' if client is not None else 'not_initialized',
+        'api_key_configured': 'yes' if os.getenv('OPENAI_API_KEY') and os.getenv('OPENAI_API_KEY') != 'your_openai_api_key_here' else 'no'
+    }
+    return jsonify(status)
+
 @app.route('/generate-quiz', methods=['POST'])
 def generate_quiz():
     """Generate a quiz from uploaded PDF content."""
     try:
+        # Check if OpenAI client is available
+        if client is None:
+            return jsonify({'error': 'OpenAI client not initialized. Please check your API key configuration.'}), 500
+        
         # Check if a file was uploaded
         if 'file' not in request.files:
             return jsonify({'error': 'No file uploaded'}), 400
