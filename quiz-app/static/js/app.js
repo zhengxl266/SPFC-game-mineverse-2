@@ -1,8 +1,11 @@
 // DOM elements
 const uploadForm = document.getElementById('upload-form');
+const urlForm = document.getElementById('url-form');
 const fileInput = document.getElementById('file-input');
+const urlInput = document.getElementById('url-input');
 const uploadArea = document.querySelector('.upload-area');
 const generateBtn = document.getElementById('generate-btn');
+const urlGenerateBtn = document.getElementById('url-generate-btn');
 const loading = document.getElementById('loading');
 const quizContainer = document.getElementById('quiz-container');
 const quizForm = document.getElementById('quiz-form');
@@ -11,13 +14,23 @@ const resultsContainer = document.getElementById('results-container');
 const resultsContent = document.getElementById('results-content');
 const restartBtn = document.getElementById('restart-btn');
 
+// Tab elements
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
 // Global quiz data
 let currentQuiz = null;
 
 // Event listeners
 uploadForm.addEventListener('submit', handleFileUpload);
+urlForm.addEventListener('submit', handleUrlSubmit);
 quizForm.addEventListener('submit', handleQuizSubmit);
 restartBtn.addEventListener('click', resetApp);
+
+// Tab switching
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
 
 // File drag and drop
 uploadArea.addEventListener('dragover', handleDragOver);
@@ -55,6 +68,56 @@ function updateFileLabel() {
     if (fileName) {
         const label = document.querySelector('.upload-label');
         label.innerHTML = `<strong>Selected:</strong> ${fileName}`;
+    }
+}
+
+function switchTab(tabName) {
+    // Update tab buttons
+    tabBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+    });
+    
+    // Update tab content
+    tabContents.forEach(content => {
+        content.classList.toggle('active', content.id === `${tabName}-tab`);
+    });
+}
+
+async function handleUrlSubmit(e) {
+    e.preventDefault();
+    
+    const url = urlInput.value.trim();
+    if (!url) {
+        alert('Please enter a URL.');
+        return;
+    }
+    
+    // Show loading
+    showLoading();
+    urlGenerateBtn.disabled = true;
+    
+    try {
+        const response = await fetch('/generate-quiz-from-url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ url: url })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to generate quiz from URL');
+        }
+        
+        currentQuiz = data;
+        displayQuiz(data.quiz);
+        
+    } catch (error) {
+        console.error('Error generating quiz from URL:', error);
+        alert('Error generating quiz: ' + error.message);
+        resetToUpload();
     }
 }
 
@@ -263,9 +326,11 @@ function resetApp() {
     quizContainer.classList.add('hidden');
     resultsContainer.classList.add('hidden');
     
-    // Reset form
+    // Reset forms
     uploadForm.reset();
+    urlForm.reset();
     generateBtn.disabled = false;
+    urlGenerateBtn.disabled = false;
     
     // Reset file label
     const label = document.querySelector('.upload-label');
@@ -279,4 +344,5 @@ function resetToUpload() {
     loading.classList.add('hidden');
     document.getElementById('upload-section').classList.remove('hidden');
     generateBtn.disabled = false;
+    urlGenerateBtn.disabled = false;
 }
