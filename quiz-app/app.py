@@ -268,11 +268,5 @@ def mark_quiz():
         print(f"Error marking quiz: {e}")
         return jsonify({'error': 'Failed to mark quiz'}), 500
 
-@app.route('/test-article')
-def test_article():
-    """Serve a test article for testing URL functionality."""
-    with open('test_article.html', 'r') as f:
-        return f.read()
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
