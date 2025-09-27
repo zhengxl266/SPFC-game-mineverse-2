@@ -80,6 +80,78 @@ header p {
     font-size: 0.9em;
 }
 
+/* Tabs */
+.input-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #718096;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+}
+
+.tab-btn:hover {
+    color: #667eea;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* URL Input Area */
+.url-input-area {
+    border: 2px dashed #cbd5e0;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.url-input-area:hover {
+    border-color: #667eea;
+}
+
+.url-label {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+#url-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#url-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
 /* Buttons */
 .btn {
     background: #667eea;

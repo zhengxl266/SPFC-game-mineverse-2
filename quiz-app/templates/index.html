@@ -15,17 +15,40 @@
 
         <!-- File Upload Section -->
         <section id="upload-section">
-            <form id="upload-form" enctype="multipart/form-data">
-                <div class="upload-area">
-                    <div class="upload-icon">📄</div>
-                    <label for="file-input" class="upload-label">
-                        <strong>Choose a PDF file</strong> or drag and drop
-                    </label>
-                    <input type="file" id="file-input" name="file" accept=".pdf" required>
-                    <p class="file-info">Maximum file size: 10MB</p>
-                </div>
-                <button type="submit" id="generate-btn" class="btn btn-primary">Generate Quiz</button>
-            </form>
+            <div class="input-tabs">
+                <button type="button" class="tab-btn active" data-tab="pdf">Upload PDF</button>
+                <button type="button" class="tab-btn" data-tab="url">Import from Link</button>
+            </div>
+            
+            <!-- PDF Upload Tab -->
+            <div id="pdf-tab" class="tab-content active">
+                <form id="upload-form" enctype="multipart/form-data">
+                    <div class="upload-area">
+                        <div class="upload-icon">📄</div>
+                        <label for="file-input" class="upload-label">
+                            <strong>Choose a PDF file</strong> or drag and drop
+                        </label>
+                        <input type="file" id="file-input" name="file" accept=".pdf" required>
+                        <p class="file-info">Maximum file size: 10MB</p>
+                    </div>
+                    <button type="submit" id="generate-btn" class="btn btn-primary">Generate Quiz</button>
+                </form>
+            </div>
+            
+            <!-- URL Input Tab -->
+            <div id="url-tab" class="tab-content">
+                <form id="url-form">
+                    <div class="url-input-area">
+                        <div class="upload-icon">🔗</div>
+                        <label for="url-input" class="url-label">
+                            <strong>Paste a URL</strong> to an article or blog post
+                        </label>
+                        <input type="url" id="url-input" name="url" placeholder="https://example.com/article" required>
+                        <p class="file-info">Enter the URL of an article, blog post, or webpage</p>
+                    </div>
+                    <button type="submit" id="url-generate-btn" class="btn btn-primary">Generate from Link</button>
+                </form>
+            </div>
         </section>
 
         <!-- Loading Indicator -->

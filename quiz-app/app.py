@@ -5,6 +5,8 @@ import json
 import fitz  # PyMuPDF
 from openai import OpenAI
 from dotenv import load_dotenv
+import httpx
+from bs4 import BeautifulSoup
 
 # Load environment variables
 load_dotenv()
@@ -13,7 +15,14 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # For session management
 
 # Configure OpenAI client
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+try:
+    # Create a custom httpx client without the problematic parameters
+    custom_http_client = httpx.Client(timeout=30.0)
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'), http_client=custom_http_client)
+except Exception as e:
+    print(f"Error creating OpenAI client: {e}")
+    # Fallback - try without custom client
+    client = None
 
 # Configuration
 UPLOAD_FOLDER = 'uploads'
@@ -110,6 +119,91 @@ def generate_quiz():
         print(f"Error generating quiz: {e}")
         return jsonify({'error': 'Failed to generate quiz'}), 500
 
+@app.route('/generate-quiz-from-url', methods=['POST'])
+def generate_quiz_from_url():
+    """Generate a quiz from URL content."""
+    try:
+        # Get URL from request
+        data = request.get_json()
+        if not data or 'url' not in data:
+            return jsonify({'error': 'No URL provided'}), 400
+        
+        url = data['url'].strip()
+        if not url:
+            return jsonify({'error': 'URL cannot be empty'}), 400
+        
+        # Basic URL validation
+        if not (url.startswith('http://') or url.startswith('https://')):
+            url = 'https://' + url
+        
+        # Fetch webpage content
+        try:
+            response = httpx.get(url, timeout=30.0, follow_redirects=True)
+            response.raise_for_status()
+        except httpx.RequestError as e:
+            return jsonify({'error': f'Failed to fetch URL: {str(e)}'}), 400
+        except httpx.HTTPStatusError as e:
+            return jsonify({'error': f'HTTP error {e.response.status_code}: {str(e)}'}), 400
+        
+        # Parse HTML and extract text
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Remove script and style elements
+        for script in soup(["script", "style"]):
+            script.decompose()
+        
+        # Extract text from paragraphs and other text elements
+        text_elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'article', 'section', 'div'])
+        text_content = ' '.join([elem.get_text().strip() for elem in text_elements if elem.get_text().strip()])
+        
+        # Fallback to all text if paragraph extraction yields too little content
+        if len(text_content) < 200:
+            text_content = soup.get_text()
+        
+        # Clean up text
+        text_content = ' '.join(text_content.split())  # Remove extra whitespace
+        
+        if not text_content or len(text_content) < 100:
+            return jsonify({'error': 'Could not extract sufficient text content from the URL'}), 400
+        
+        # Generate quiz using OpenAI (reuse existing logic)
+        prompt = f"""Based on the following text, create a 5-question multiple-choice quiz. 
+        Each question should have 4 options (A, B, C, D) and test understanding of the key concepts.
+        
+        Text: {text_content[:4000]}  # Limit text to avoid token limits
+        
+        Please respond with a JSON object in this exact format:
+        {{
+            "quiz": [
+                {{
+                    "question": "Question text here?",
+                    "options": ["A. Option 1", "B. Option 2", "C. Option 3", "D. Option 4"],
+                    "correct_answer": "A"
+                }}
+            ]
+        }}"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a helpful teacher creating educational quizzes. Always respond with valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"}
+        )
+        
+        quiz_data = json.loads(response.choices[0].message.content)
+        
+        # Store quiz data and document text in session for later use
+        session['quiz_data'] = quiz_data
+        session['document_text'] = text_content
+        
+        return jsonify(quiz_data)
+        
+    except Exception as e:
+        print(f"Error generating quiz from URL: {e}")
+        return jsonify({'error': f'Failed to generate quiz: {str(e)}'}), 500
+
 @app.route('/mark-quiz', methods=['POST'])
 def mark_quiz():
     """Mark the quiz and provide AI-generated explanations for incorrect answers."""
@@ -173,6 +267,12 @@ def mark_quiz():
     except Exception as e:
         print(f"Error marking quiz: {e}")
         return jsonify({'error': 'Failed to mark quiz'}), 500
+
+@app.route('/test-article')
+def test_article():
+    """Serve a test article for testing URL functionality."""
+    with open('test_article.html', 'r') as f:
+        return f.read()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
