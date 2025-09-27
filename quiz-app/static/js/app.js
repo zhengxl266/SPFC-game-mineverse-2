@@ -3,6 +3,9 @@ const uploadForm = document.getElementById('upload-form');
 const fileInput = document.getElementById('file-input');
 const uploadArea = document.querySelector('.upload-area');
 const generateBtn = document.getElementById('generate-btn');
+const urlForm = document.getElementById('url-form');
+const urlInput = document.getElementById('url-input');
+const urlSubmitBtn = document.getElementById('url-submit-btn');
 const loading = document.getElementById('loading');
 const quizContainer = document.getElementById('quiz-container');
 const quizForm = document.getElementById('quiz-form');
@@ -16,6 +19,7 @@ let currentQuiz = null;
 
 // Event listeners
 uploadForm.addEventListener('submit', handleFileUpload);
+urlSubmitBtn.addEventListener('click', handleUrlSubmit);
 quizForm.addEventListener('submit', handleQuizSubmit);
 restartBtn.addEventListener('click', resetApp);
 
@@ -55,6 +59,48 @@ function updateFileLabel() {
     if (fileName) {
         const label = document.querySelector('.upload-label');
         label.innerHTML = `<strong>Selected:</strong> ${fileName}`;
+    }
+}
+
+async function handleUrlSubmit(e) {
+    e.preventDefault();
+    
+    const url = urlInput.value.trim();
+    if (!url) {
+        alert('Please enter a valid URL.');
+        return;
+    }
+
+    // Show loading
+    showLoading();
+    urlSubmitBtn.disabled = true;
+    generateBtn.disabled = true;
+
+    try {
+        const response = await fetch('/generate-quiz-from-url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ url: url })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to generate quiz from URL');
+        }
+
+        currentQuiz = data;
+        displayQuiz(data.quiz);
+
+    } catch (error) {
+        console.error('Error generating quiz from URL:', error);
+        alert(`Error: ${error.message}`);
+        hideLoading();
+    } finally {
+        urlSubmitBtn.disabled = false;
+        generateBtn.disabled = false;
     }
 }
 

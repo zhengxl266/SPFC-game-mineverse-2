@@ -21,10 +21,17 @@
                     <label for="file-input" class="upload-label">
                         <strong>Choose a PDF file</strong> or drag and drop
                     </label>
-                    <input type="file" id="file-input" name="file" accept=".pdf" required>
+                    <input type="file" id="file-input" name="file" accept=".pdf">
                     <p class="file-info">Maximum file size: 10MB</p>
                 </div>
-                <button type="submit" id="generate-btn" class="btn btn-primary">Generate Quiz</button>
+                <button type="submit" id="generate-btn" class="btn btn-primary">Generate Quiz from PDF</button>
+            </form>
+            <div class="or-separator">OR</div>
+            <form id="url-form">
+                <div class="upload-area">
+                    <input type="url" id="url-input" placeholder="Paste an article or blog post URL" required>
+                </div>
+                <button type="button" id="url-submit-btn" class="btn btn-primary">Generate from Link</button>
             </form>
         </section>
 

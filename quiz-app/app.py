@@ -5,6 +5,8 @@ import json
 import fitz  # PyMuPDF
 from openai import OpenAI
 from dotenv import load_dotenv
+import httpx
+from bs4 import BeautifulSoup
 
 # Load environment variables
 load_dotenv()
@@ -109,6 +111,65 @@ def generate_quiz():
     except Exception as e:
         print(f"Error generating quiz: {e}")
         return jsonify({'error': 'Failed to generate quiz'}), 500
+
+@app.route('/generate-quiz-from-url', methods=['POST'])
+def generate_quiz_from_url():
+    """Generate a quiz from a URL."""
+    try:
+        data = request.get_json()
+        url = data.get('url')
+        if not url:
+            return jsonify({'error': 'No URL provided'}), 400
+
+        # Fetch and parse URL content
+        response = httpx.get(url)
+        response.raise_for_status()  # Raise an exception for bad status codes
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Extract text from paragraphs
+        paragraphs = soup.find_all('p')
+        document_text = '\n'.join([p.get_text() for p in paragraphs])
+
+        if not document_text:
+            return jsonify({'error': 'Failed to extract text from URL'}), 500
+
+        # Generate quiz using OpenAI
+        prompt = f"""Based on the following text, create a 5-question multiple-choice quiz. 
+        Each question should have 4 options (A, B, C, D) and test understanding of the key concepts.
+        
+        Text: {document_text[:4000]}  # Limit text to avoid token limits
+        
+        Please respond with a JSON object in this exact format:
+        {{
+            "quiz": [
+                {{
+                    "question": "Question text here?",
+                    "options": ["A. Option 1", "B. Option 2", "C. Option 3", "D. Option 4"],
+                    "correct_answer": "A"
+                }}
+            ]
+        }}"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a helpful teacher creating educational quizzes. Always respond with valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"}
+        )
+        
+        quiz_data = json.loads(response.choices[0].message.content)
+        
+        # Store quiz data and document text in session
+        session['quiz_data'] = quiz_data
+        session['document_text'] = document_text
+        
+        return jsonify(quiz_data)
+        
+    except Exception as e:
+        print(f"Error generating quiz from URL: {e}")
+        return jsonify({'error': 'Failed to generate quiz from URL'}), 500
 
 @app.route('/mark-quiz', methods=['POST'])
 def mark_quiz():
